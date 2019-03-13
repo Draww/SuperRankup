@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class LuckPermsGroupManager implements IGroupManager {
 
@@ -61,6 +62,8 @@ public class LuckPermsGroupManager implements IGroupManager {
         try {
             luckUser = loadUser(player);
         } catch (IllegalStateException ex) { return; }
+        luckUser.setPermission(api.getNodeFactory().makeGroupNode(Objects.requireNonNull(api.getGroup(group))).build());
         luckUser.setPrimaryGroup(group);
+        api.getUserManager().saveUser(luckUser);
     }
 }

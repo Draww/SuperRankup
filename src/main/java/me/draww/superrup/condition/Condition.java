@@ -12,9 +12,10 @@ public class Condition {
     private String message;
     private ConditionType type;
 
-    public Condition(String id, Map<String, Object> requiredData, ConditionType type) {
+    public Condition(String id, Map<String, Object> requiredData, String message, ConditionType type) {
         this.id = id;
         this.requiredData = requiredData;
+        this.message = message;
         this.type = type;
     }
 

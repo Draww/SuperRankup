@@ -57,21 +57,21 @@ public class RankManager {
     }
 
     public void init() {
-        ConfigurationSection section = ranksConfig.getConfig().getDefaultSection();
-        for (String rank : section.getKeys(false)) {
-            if ((!section.contains(rank + ".group") && !section.isString(rank + ".group"))
-                    || (!section.contains(rank + ".queue") && !section.isInt(rank + ".queue"))
-                    || (!section.contains(rank + ".icon") && !section.isConfigurationSection(rank + ".icon"))
-                    || (!section.contains(rank + ".conditions")) && !section.isConfigurationSection(rank + ".conditions")) continue;
+        for (String rank : ranksConfig.getConfig().getKeys(false)) {
+            if ((!ranksConfig.getConfig().contains(rank + ".group") && !ranksConfig.getConfig().isString(rank + ".group"))
+                    || (!ranksConfig.getConfig().contains(rank + ".queue") && !ranksConfig.getConfig().isInt(rank + ".queue"))
+                    || (!ranksConfig.getConfig().contains(rank + ".icon") && !ranksConfig.getConfig().isConfigurationSection(rank + ".icon"))
+                    || (!ranksConfig.getConfig().contains(rank + ".conditions")) && !ranksConfig.getConfig().isConfigurationSection(rank + ".conditions")) continue;
             rankMap.put(rank, new Rank(rank,
-                    section.getString(rank + ".group"),
-                    section.getInt(rank + ".queue"),
-                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.low")),
-                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.jump")),
-                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.equal")),
-                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.high")),
-                    ConditionProvider.deserializeConditions(section.getConfigurationSection(rank + ".conditions")),
-                    ExecutorProvider.deserializeExecutors(section.getConfigurationSection(rank + ".executors"))));
+                    ranksConfig.getConfig().getString(rank + ".group"),
+                    ranksConfig.getConfig().getInt(rank + ".queue"),
+                    ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.low")),
+                    ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.jump")),
+                    ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.equal")),
+                    ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.high")),
+                    ConditionProvider.deserializeConditions(ranksConfig.getConfig().getConfigurationSection(rank + ".conditions")),
+                    ExecutorProvider.deserializeExecutors(ranksConfig.getConfig().getConfigurationSection(rank + ".executors"))));
+            Main.getInstance().getLogger().info(rank + " Loaded!");
         }
     }
 

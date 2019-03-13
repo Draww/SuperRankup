@@ -29,7 +29,7 @@ public class RankMenu extends Menu {
         add("ranks");
         add("updowninfo");
         addPane("ranks", new BasicPane(0, 0, 4, 9));
-        addPane("updowninfo", new BasicPane(0, 3, 1, 9));
+        addPane("updowninfo", new BasicPane(0, 4, 1, 9));
         insertElement("updowninfo", 0, new BasicElement(ItemStackBuilder.of(Material.ARROW).name("&c<---").build(),
                 new BasicTarget(e -> {
                     e.cancel();
@@ -55,6 +55,7 @@ public class RankMenu extends Menu {
         List<Rank> ranks = Main.getInstance().getRankManager().getSortedRanks();
         if (ranks != null && !ranks.isEmpty()) {
             String group = Main.getInstance().getGroupManager().getPlayerPrimaryGroup(player);
+            Main.getInstance().getLogger().info(group);
             Integer indexPlayer = null;
             for (Rank rank : ranks.toArray(new Rank[0])) {
                 if (rank.getGroup().equals(group)) {
@@ -62,30 +63,38 @@ public class RankMenu extends Menu {
                 }
             }
             if (indexPlayer == null) indexPlayer = 0;
+            Main.getInstance().getLogger().info(indexPlayer.toString());
             final Integer finalIndexPlayer = indexPlayer;
             ranks.forEach(rank -> {
                 if (!rank.getGroup().equals(group)) {
+                    Main.getInstance().getLogger().info(rank.getId() + " 1");
                     if (finalIndexPlayer > rank.getQueue()) {
+                        Main.getInstance().getLogger().info(rank.getId() + " 2");
                         addLast(ElementUtil.emptyElement(rank.getIconLow()));
                     } else if (finalIndexPlayer < rank.getQueue()) {
+                        Main.getInstance().getLogger().info(rank.getId() + " 3");
                         if (rank.getQueue().equals(finalIndexPlayer + 1)) {
+                            Main.getInstance().getLogger().info(rank.getId() + " 4");
                             addLast(new BasicElement(rank.getIconJump(),
                                     new BasicTarget(e -> {
                                         e.cancel();
                                         boolean controlConditions = ConditionProvider.testAllConditions(player, rank, new ArrayList<>(rank.getConditions().values()));
                                         if (controlConditions) {
-                                            Main.getInstance().getGroupManager().setPlayerPrimaryGroup(player, group);
+                                            Main.getInstance().getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
                                             ExecutorProvider.runAllExecutors(player, rank, new ArrayList<>(rank.getExecutors().values()));
                                         }
                                         e.closeView();
                                     })));
                         } else {
+                            Main.getInstance().getLogger().info(rank.getId() + " 5");
                             addLast(ElementUtil.emptyElement(rank.getIconHigh()));
                         }
                     } else if (rank.getGroup().equals(group)) {
+                        Main.getInstance().getLogger().info(rank.getId() + " 6");
                         addLast(ElementUtil.emptyElement(rank.getIconEqual()));
                     }
                 } else {
+                    Main.getInstance().getLogger().info(rank.getId() + " 7");
                     addLast(ElementUtil.emptyElement(rank.getIconEqual()));
                 }
             });

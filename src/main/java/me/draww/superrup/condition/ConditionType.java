@@ -2,6 +2,7 @@ package me.draww.superrup.condition;
 
 import me.draww.superrup.Main;
 import me.draww.superrup.Rank;
+import me.draww.superrup.utils.Text;
 import me.draww.superrup.utils.TriPredicate;
 import org.bukkit.entity.Player;
 
@@ -9,9 +10,9 @@ import java.util.Map;
 
 public enum ConditionType {
     MONEY((player, condition, rank) -> {
-        Double data = (Double) condition.getRequiredData().get("value");
-        Double money = Main.getInstance().getVaultEconomy().getBalance(player);
-        if (Double.compare(money, data) == -1) { // Money < Data Value == True
+        double data = (double) condition.getRequiredData().get("value");
+        double money = Main.getInstance().getVaultEconomy().getBalance(player);
+        if (Double.compare(money, data) == -1) {
             message(player, condition.getMessage(), condition.getRequiredData());
             return false;
         }
@@ -42,6 +43,6 @@ public enum ConditionType {
                 message = message.replace("{" + entry.getKey().toLowerCase() + "}", String.valueOf(entry.getValue()));
             }
         }
-        player.sendMessage(message);
+        player.sendMessage(Text.colorize(message));
     }
 }

@@ -7,10 +7,12 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ExecutorProvider {
 
     public static Map<String, Executor> deserializeExecutors(ConfigurationSection section) {
+        if (section == null) return new HashMap<>();
         Map<String, Executor> executorMap = new HashMap<>();
         for (String executorKey : section.getKeys(false)) {
             if ((!section.contains(executorKey + ".type") && ! section.isString(executorKey + ".type"))

@@ -7,16 +7,19 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ConditionProvider {
 
     public static Map<String, Condition> deserializeConditions(ConfigurationSection section) {
+        if (section == null) return new HashMap<>();
         Map<String, Condition> conditionMap = new HashMap<>();
         for (String condKey : section.getKeys(false)) {
             if ((!section.contains(condKey + ".type") && ! section.isString(condKey + ".type"))
                     || (!section.contains(condKey + ".message") && ! section.isString(condKey + ".message"))) continue;
             conditionMap.put(condKey, new Condition(condKey,
                     section.getConfigurationSection(condKey + ".data").getValues(false),
+                    section.getString(condKey + ".message"),
                     ConditionType.valueOf(section.getString(condKey + ".type").toUpperCase())));
         }
         return conditionMap;

@@ -1,5 +1,7 @@
 package me.draww.superrup;
 
+import co.aikar.commands.BukkitCommandManager;
+import me.blackness.black.Blackness;
 import me.draww.superrup.group.IGroupManager;
 import me.draww.superrup.group.LuckPermsGroupManager;
 import net.milkbowl.vault.Vault;
@@ -19,6 +21,8 @@ public class Main extends JavaPlugin {
     private RankManager rankManager;
     private Economy vaultEconomy;
 
+    private BukkitCommandManager commandManager;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -26,15 +30,20 @@ public class Main extends JavaPlugin {
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         if (!initGroupManager()) {
+            getLogger().info("Group Manager Created Error");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
         if (!initVaultManager()) {
+            getLogger().info("Vault Injection Error");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
         rankManager = new RankManager(this);
         rankManager.init();
+        commandManager = new BukkitCommandManager(this);
+        commandManager.registerCommand(new RankCommand());
+        new Blackness().prepareFor(this);
     }
 
     private boolean initVaultManager() {
