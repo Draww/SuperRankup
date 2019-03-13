@@ -1,0 +1,92 @@
+example_rank_1:
+  group: example_group
+  queue: 0
+  icon:
+    material: DIAMOND_BLOCK:0
+    amount: 1
+    name: '&b{rank}'
+    lores:
+      - "&aYou need $500 to raise your rank."
+  conditions:
+    cond_1:
+      type: MONEY
+      message: "&cYou don't have enough money [&e{data}&c]"
+      data:
+        value: 500
+firework_meta_test_1:
+  group: meta_test_group_1
+  queue: 1
+  icon:
+    material: FIREWORK
+    amount: 1
+    name: '&b{rank}'
+    lores:
+      - "&aMeta Test 1"
+    meta:
+      # power [1-4]
+      power: 1
+      # firework types: BALL, BALL_LARGE, STAR, BURST, CREEPER
+      type: BALL
+      # firework colors and fade colors: color white, orange, magenta, light_blue, yellow, lime, pink, gray, silver, cyan, purple, blue, brown, green, red, black
+      colors:
+        - black
+        - white
+        - yellow
+      fade:
+        - red
+        - white
+        - lime
+      trail: true
+      flicker: true
+book_meta_test_1:
+  group: meta_test_group_2
+  queue: 2
+  icon:
+    material: BOOK
+    amount: 1
+    name: '&b{rank}'
+    lores:
+      - "&aMeta Test2"
+    meta:
+      title: "&aTest Title"
+      author: "Draww"
+potion_meta_test_1:
+  group: meta_test_group_3
+  queue: 3
+  icon:
+    material: potion
+    amount: 1
+    name: '&b{rank}'
+    lores:
+      - "&aMeta Test3"
+    meta:
+      base: SPEED
+      effects:
+        1:
+          type: SPEED
+          power: 2 # -127 to 128
+          duration: 60 # seconds
+          ambient: true
+          particles: true
+          overwrite: true
+          color: WHITE
+        2:
+          type: HEAL
+          power: 1 # -127 to 128
+          duration: 240 # seconds
+leatherarmor_meta_test_1:
+  group: meta_test_group_4
+  queue: 4
+  icon:
+    material: LEATHER_HELMET
+    amount: 1
+    name: '&b{rank}'
+    lores:
+      - "&aMeta Test3"
+    meta:
+      color:
+        - 225 # Red
+        - 29 # Green
+        - 55 # Blue
+
+
