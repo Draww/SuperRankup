@@ -1,6 +1,7 @@
 package me.draww.superrup.utils;
 
 import me.draww.superrup.Config;
+import me.draww.superrup.Main;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -20,6 +21,10 @@ import java.util.Map;
 public class ItemUtil {
 
     public static ItemStack deserializeItemStack(ConfigurationSection section) { //TODO: remove the return null effects
+        if (section.contains("template") && section.isString("template")) {
+            ConfigurationSection templateSection = Main.getInstance().getTemplateConfig().getConfigurationSection(section.getString("template"));
+            return deserializeItemStack(templateSection);
+        }
         if (!section.contains("material")) return null;
         String materialStr = section.getString("material");
         if (materialStr.isEmpty()) return null;

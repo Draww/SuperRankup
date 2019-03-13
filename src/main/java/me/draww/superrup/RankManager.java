@@ -1,6 +1,7 @@
 package me.draww.superrup;
 
 import me.draww.superrup.condition.ConditionProvider;
+import me.draww.superrup.executor.ExecutorProvider;
 import me.draww.superrup.utils.ItemUtil;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -65,8 +66,12 @@ public class RankManager {
             rankMap.put(rank, new Rank(rank,
                     section.getString(rank + ".group"),
                     section.getInt(rank + ".queue"),
-                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon")),
-                    ConditionProvider.deserializeConditions(section.getConfigurationSection(rank + ".conditions"))));
+                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.low")),
+                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.jump")),
+                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.equal")),
+                    ItemUtil.deserializeItemStack(section.getConfigurationSection(rank + ".icon.high")),
+                    ConditionProvider.deserializeConditions(section.getConfigurationSection(rank + ".conditions")),
+                    ExecutorProvider.deserializeExecutors(section.getConfigurationSection(rank + ".executors"))));
         }
     }
 

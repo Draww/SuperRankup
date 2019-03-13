@@ -1,5 +1,6 @@
 package me.draww.superrup.condition;
 
+import me.draww.superrup.Rank;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -21,9 +22,9 @@ public class ConditionProvider {
         return conditionMap;
     }
 
-    public static boolean testAllConditions(Player player, List<Condition> conditions) {
+    public static boolean testAllConditions(Player player, Rank rank, List<Condition> conditions) {
         for (Condition condition : conditions) {
-            if (!condition.test(player)) {
+            if (!condition.test(player, rank)) {
                 return false;
             }
         }

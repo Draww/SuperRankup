@@ -5,6 +5,7 @@ import me.blackness.black.element.BasicElement;
 import me.blackness.black.pane.BasicPane;
 import me.blackness.black.target.BasicTarget;
 import me.draww.superrup.condition.ConditionProvider;
+import me.draww.superrup.executor.ExecutorProvider;
 import me.draww.superrup.inventory.builder.Menu;
 import me.draww.superrup.inventory.util.ElementUtil;
 import me.draww.superrup.utils.ItemStackBuilder;
@@ -65,26 +66,27 @@ public class RankMenu extends Menu {
             ranks.forEach(rank -> {
                 if (!rank.getGroup().equals(group)) {
                     if (finalIndexPlayer > rank.getQueue()) {
-                        //addLast(ElementUtil.emptyElement()); //TODO: Get Low Icon
+                        addLast(ElementUtil.emptyElement(rank.getIconLow()));
                     } else if (finalIndexPlayer < rank.getQueue()) {
                         if (rank.getQueue().equals(finalIndexPlayer + 1)) {
-                            addLast(new BasicElement(rank.getIcon(),
+                            addLast(new BasicElement(rank.getIconJump(),
                                     new BasicTarget(e -> {
                                         e.cancel();
-                                        boolean controlConditions = ConditionProvider.testAllConditions(player, new ArrayList<>(rank.getConditions().values()));
+                                        boolean controlConditions = ConditionProvider.testAllConditions(player, rank, new ArrayList<>(rank.getConditions().values()));
                                         if (controlConditions) {
-                                            //TODO: Up Rank (go ahead)
+                                            Main.getInstance().getGroupManager().setPlayerPrimaryGroup(player, group);
+                                            ExecutorProvider.runAllExecutors(player, rank, new ArrayList<>(rank.getExecutors().values()));
                                         }
                                         e.closeView();
                                     })));
                         } else {
-                            //addLast(ElementUtil.emptyElement()); //TODO: Get High Icon
+                            addLast(ElementUtil.emptyElement(rank.getIconHigh()));
                         }
                     } else if (rank.getGroup().equals(group)) {
-                        //addLast(ElementUtil.emptyElement()); //TODO: Get Equal Icon
+                        addLast(ElementUtil.emptyElement(rank.getIconEqual()));
                     }
                 } else {
-                    //addLast(ElementUtil.emptyElement()); //TODO: Get Equal Icon
+                    addLast(ElementUtil.emptyElement(rank.getIconEqual()));
                 }
             });
         }

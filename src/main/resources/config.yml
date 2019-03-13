@@ -1,10 +1,2 @@
 # Permission Providers : LuckPerms, PermissionEx and Vault
 permission_provider: LuckPerms
-icon:
-  passed:
-    material: OBSIDIAN:0
-    amount: 1
-    name: '&bPassed {rank}'
-    lores:
-      - '&aTest1'
-      - '&eTest2'

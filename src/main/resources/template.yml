@@ -1,0 +1,21 @@
+custom_low:
+  material: OBSIDIAN:0
+  amount: 1
+  name: '&bPassed &a{rank}'
+  lores:
+    - '&aTest1'
+    - '&eTest2'
+custom_high:
+  material: OBSIDIAN:0
+  amount: 1
+  name: '&bHigh &a{rank}'
+  lores:
+    - '&aTest1'
+    - '&eTest2'
+custom_equal:
+  material: OBSIDIAN:0
+  amount: 1
+  name: '&bEqual &a{rank}'
+  lores:
+    - '&aTest1'
+    - '&eTest2'

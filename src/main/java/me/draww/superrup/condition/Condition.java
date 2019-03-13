@@ -1,5 +1,6 @@
 package me.draww.superrup.condition;
 
+import me.draww.superrup.Rank;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -17,8 +18,8 @@ public class Condition {
         this.type = type;
     }
 
-    public boolean test(Player player) {
-        return type.getPredicate().test(player, this);
+    public boolean test(Player player, Rank rank) {
+        return type.getPredicate().test(player, this, rank);
     }
 
     public String getId() {

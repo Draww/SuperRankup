@@ -2,11 +2,18 @@ example_rank_1:
   group: example_group
   queue: 0
   icon:
-    material: DIAMOND_BLOCK:0
-    amount: 1
-    name: '&b{rank}'
-    lores:
-      - "&aYou need $500 to raise your rank."
+    low:
+      template: custom_low
+    jump:
+      material: DIAMOND_BLOCK:0
+      amount: 1
+      name: '&b{rank}'
+      lores:
+        - "&aYou need $500 to raise your rank."
+    high:
+      template: custom_high
+    equal:
+      template: custom_equal
   conditions:
     cond_1:
       type: MONEY

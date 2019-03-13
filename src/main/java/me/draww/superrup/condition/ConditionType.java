@@ -1,17 +1,23 @@
 package me.draww.superrup.condition;
 
+import me.draww.superrup.Main;
+import me.draww.superrup.Rank;
+import me.draww.superrup.utils.TriPredicate;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
-import java.util.function.BiPredicate;
 
 public enum ConditionType {
-    MONEY((player, condition) -> {
-        Integer data = (Integer) condition.getRequiredData().get("value");
-        //TODO: Get player money and control it
+    MONEY((player, condition, rank) -> {
+        Double data = (Double) condition.getRequiredData().get("value");
+        Double money = Main.getInstance().getVaultEconomy().getBalance(player);
+        if (Double.compare(money, data) == -1) { // Money < Data Value == True
+            message(player, condition.getMessage(), condition.getRequiredData());
+            return false;
+        }
         return true;
     }),
-    EXP((player, condition) -> {
+    EXP((player, condition, rank) -> {
         Float data = (Float) condition.getRequiredData().get("value");
         if (player.getExp() != data) {
             message(player, condition.getMessage(), condition.getRequiredData());
@@ -20,13 +26,13 @@ public enum ConditionType {
         return true;
     });
 
-    private BiPredicate<Player, Condition> predicate;
+    private TriPredicate<Player, Condition, Rank> predicate;
 
-    ConditionType(BiPredicate<Player, Condition> predicate) {
+    ConditionType(TriPredicate<Player, Condition, Rank> predicate) {
         this.predicate = predicate;
     }
 
-    public BiPredicate<Player, Condition> getPredicate() {
+    public TriPredicate<Player, Condition, Rank> getPredicate() {
         return predicate;
     }
 
