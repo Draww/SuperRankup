@@ -66,4 +66,8 @@ public class LuckPermsGroupManager implements IGroupManager {
         luckUser.setPrimaryGroup(group);
         api.getUserManager().saveUser(luckUser);
     }
+
+    public LuckPermsApi getApi() {
+        return api;
+    }
 }

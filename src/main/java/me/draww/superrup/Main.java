@@ -4,6 +4,7 @@ import co.aikar.commands.BukkitCommandManager;
 import me.blackness.black.Blackness;
 import me.draww.superrup.group.IGroupManager;
 import me.draww.superrup.group.LuckPermsGroupManager;
+import me.draww.superrup.group.PermissionsExGroupManager;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -30,12 +31,12 @@ public class Main extends JavaPlugin {
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         if (!initGroupManager()) {
-            getLogger().info("Group Manager Created Error");
+            getLogger().severe("group manager was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
         if (!initVaultManager()) {
-            getLogger().info("Vault Injection Error");
+            getLogger().severe("Vault was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -58,8 +59,12 @@ public class Main extends JavaPlugin {
     }
 
     private boolean initGroupManager() {
-        if (config.getConfig().getString("permission_provider").equals("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
+        String permissionProvider = config.getConfig().getString("permission_provider");
+        if (permissionProvider.equals("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
             groupManager = new LuckPermsGroupManager();
+            return true;
+        } else if  (permissionProvider.equals("PermissionsEx") && this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
+            groupManager = new PermissionsExGroupManager();
             return true;
         }
         return false;
