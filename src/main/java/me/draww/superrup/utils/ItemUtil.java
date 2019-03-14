@@ -70,39 +70,4 @@ public class ItemUtil {
         return createdItem;
     }
 
-    public static Map<?, ?> serializeItemStack(ItemStack item) {
-        Map<Object, Object> serializeMap = new HashMap<>();
-        return serializeMap;
-    }
-
-    enum Color {
-        WHITE(org.bukkit.Color.WHITE),
-        SILVER(org.bukkit.Color.SILVER),
-        GRAY(org.bukkit.Color.GRAY),
-        BLACK(org.bukkit.Color.BLACK),
-        RED(org.bukkit.Color.RED),
-        MAROON(org.bukkit.Color.MAROON),
-        YELLOW(org.bukkit.Color.YELLOW),
-        OLIVE(org.bukkit.Color.OLIVE),
-        LIME(org.bukkit.Color.LIME),
-        GREEN(org.bukkit.Color.GREEN),
-        AQUA(org.bukkit.Color.AQUA),
-        TEAL(org.bukkit.Color.TEAL),
-        BLUE(org.bukkit.Color.BLUE),
-        NAVY(org.bukkit.Color.NAVY),
-        FUCHSIA(org.bukkit.Color.FUCHSIA),
-        PURPLE(org.bukkit.Color.PURPLE),
-        ORANGE(org.bukkit.Color.ORANGE);
-
-        private org.bukkit.Color bukkitColor;
-
-        Color(org.bukkit.Color bukkitColor) {
-            this.bukkitColor = bukkitColor;
-        }
-
-        public org.bukkit.Color getBukkitColor() {
-            return bukkitColor;
-        }
-    }
-
 }
