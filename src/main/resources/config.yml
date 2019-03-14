@@ -19,9 +19,7 @@ menu:
         icon:
           material: STAINED_GLASS_PANE:0
           amount: 1
-          name: '&b{rank}'
-          lores:
-            - "&aYou need $500 to raise your rank."
+          name: ' '
       elements:
         up:
           x: 8
