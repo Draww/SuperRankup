@@ -32,6 +32,12 @@ public class Rank {
         this.executors = executors;
     }
 
+    public Rank(String id, String group, Integer queue) {
+        this.id = id;
+        this.group = group;
+        this.queue = queue;
+    }
+
     public String getId() {
         return id;
     }
