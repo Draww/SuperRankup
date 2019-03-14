@@ -75,6 +75,13 @@ public class Main extends JavaPlugin {
 
     }
 
+    public void reload() {
+        config.load();
+        ranksConfig.load();
+        templateConfig.load();
+        rankManager.reload();
+    }
+
     public static Main getInstance() {
         return instance;
     }
@@ -101,5 +108,9 @@ public class Main extends JavaPlugin {
 
     public Economy getVaultEconomy() {
         return vaultEconomy;
+    }
+
+    public BukkitCommandManager getCommandManager() {
+        return commandManager;
     }
 }

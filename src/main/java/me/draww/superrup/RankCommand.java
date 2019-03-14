@@ -3,6 +3,8 @@ package me.draww.superrup;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Subcommand;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("rank")
@@ -12,5 +14,11 @@ public class RankCommand extends BaseCommand {
     public void onOpen(Player player) {
         new RankMenu(player).showTo(player);
     }
+
+    @Subcommand("reload")
+    public void onReload(CommandSender sender) {
+        Main.getInstance().reload();
+    }
+
 
 }
