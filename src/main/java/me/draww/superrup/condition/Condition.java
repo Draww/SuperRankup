@@ -8,23 +8,29 @@ import java.util.Map;
 public class Condition {
 
     private final String id;
+    private final Rank rank;
     private Map<String, Object> requiredData;
     private String message;
     private ConditionType type;
 
-    public Condition(String id, Map<String, Object> requiredData, String message, ConditionType type) {
+    public Condition(String id, Rank rank, Map<String, Object> requiredData, String message, ConditionType type) {
         this.id = id;
+        this.rank = rank;
         this.requiredData = requiredData;
         this.message = message;
         this.type = type;
     }
 
-    public boolean test(Player player, Rank rank) {
-        return type.getPredicate().test(player, this, rank);
+    public boolean test(Player player) {
+        return type.getPredicate().test(player, this);
     }
 
     public String getId() {
         return id;
+    }
+
+    public Rank getRank() {
+        return rank;
     }
 
     public Map<String, Object> getRequiredData() {

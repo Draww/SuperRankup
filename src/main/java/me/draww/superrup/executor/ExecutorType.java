@@ -1,18 +1,18 @@
 package me.draww.superrup.executor;
 
-import me.draww.superrup.Rank;
-import me.draww.superrup.utils.TriConsumer;
 import org.bukkit.entity.Player;
+
+import java.util.function.BiConsumer;
 
 public enum ExecutorType {;
 
-    private TriConsumer<Player, Executor, Rank> consumer;
+    private BiConsumer<Player, Executor> consumer;
 
-    ExecutorType(TriConsumer<Player, Executor, Rank> consumer) {
+    ExecutorType(BiConsumer<Player, Executor> consumer) {
         this.consumer = consumer;
     }
 
-    public TriConsumer<Player, Executor, Rank> getConsumer() {
+    public BiConsumer<Player, Executor> getConsumer() {
         return consumer;
     }
 }

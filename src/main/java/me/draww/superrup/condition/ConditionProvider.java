@@ -11,13 +11,14 @@ import java.util.Set;
 
 public class ConditionProvider {
 
-    public static Map<String, Condition> deserializeConditions(ConfigurationSection section) {
+    public static Map<String, Condition> deserializeConditions(ConfigurationSection section, Rank rank) {
         if (section == null) return new HashMap<>();
         Map<String, Condition> conditionMap = new HashMap<>();
         for (String condKey : section.getKeys(false)) {
             if ((!section.contains(condKey + ".type") && ! section.isString(condKey + ".type"))
                     || (!section.contains(condKey + ".message") && ! section.isString(condKey + ".message"))) continue;
             conditionMap.put(condKey, new Condition(condKey,
+                    rank,
                     section.getConfigurationSection(condKey + ".data").getValues(false),
                     section.getString(condKey + ".message"),
                     ConditionType.valueOf(section.getString(condKey + ".type").toUpperCase())));
@@ -25,9 +26,9 @@ public class ConditionProvider {
         return conditionMap;
     }
 
-    public static boolean testAllConditions(Player player, Rank rank, List<Condition> conditions) {
+    public static boolean testAllConditions(Player player, List<Condition> conditions) {
         for (Condition condition : conditions) {
-            if (!condition.test(player, rank)) {
+            if (!condition.test(player)) {
                 return false;
             }
         }

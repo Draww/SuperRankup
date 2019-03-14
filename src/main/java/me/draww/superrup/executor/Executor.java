@@ -8,21 +8,27 @@ import java.util.Map;
 public class Executor {
 
     private final String id;
+    private final Rank rank;
     private Map<String, Object> data;
     private ExecutorType type;
 
-    public Executor(String id, Map<String, Object> data, ExecutorType type) {
+    public Executor(String id, Rank rank, Map<String, Object> data, ExecutorType type) {
         this.id = id;
+        this.rank = rank;
         this.data = data;
         this.type = type;
     }
 
-    public void run(Player player, Rank rank) {
-        type.getConsumer().accept(player, this, rank);
+    public void run(Player player) {
+        type.getConsumer().accept(player, this);
     }
 
     public String getId() {
         return id;
+    }
+
+    public Rank getRank() {
+        return rank;
     }
 
     public Map<String, Object> getData() {
