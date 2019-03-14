@@ -1,4 +1,4 @@
-# Permission Providers : LuckPerms, PermissionsEx and Vault
+# Permission Providers : LuckPerms, PermissionsEx
 permission_provider: LuckPerms
 menu:
   title: "&aRank Menu"
