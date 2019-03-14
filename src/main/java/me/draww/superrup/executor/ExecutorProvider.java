@@ -18,7 +18,7 @@ public class ExecutorProvider {
                     || (!section.contains(executorKey + ".message") && ! section.isString(executorKey + ".message"))) continue;
             executorMap.put(executorKey, new Executor(executorKey,
                     rank,
-                    section.getConfigurationSection(executorKey + ".data").getValues(false),
+                    section.getConfigurationSection(executorKey + ".data").getValues(true),
                     ExecutorType.valueOf(section.getString(executorKey + ".type").toUpperCase())));
         }
         return executorMap;

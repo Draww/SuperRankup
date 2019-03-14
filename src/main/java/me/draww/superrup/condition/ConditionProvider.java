@@ -19,7 +19,7 @@ public class ConditionProvider {
                     || (!section.contains(condKey + ".message") && ! section.isString(condKey + ".message"))) continue;
             conditionMap.put(condKey, new Condition(condKey,
                     rank,
-                    section.getConfigurationSection(condKey + ".data").getValues(false),
+                    section.getConfigurationSection(condKey + ".data").getValues(true),
                     section.getString(condKey + ".message"),
                     ConditionType.valueOf(section.getString(condKey + ".type").toUpperCase())));
         }
