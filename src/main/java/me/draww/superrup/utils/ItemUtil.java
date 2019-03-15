@@ -30,18 +30,22 @@ public class ItemUtil {
                 newName = newName.replace(variables[i], variables[i + 1]);
             }
         }
+        ItemStackBuilder stackBuilder = ItemStackBuilder.of(item).name(Text.colorize(newName));
         List<String> oldLores = meta.getLore();
-        List<String> newLores = new ArrayList<>();
-        for (String lore : oldLores) {
-            String newLore = StringUtil.replacePlayerPlaceholders(player, lore);
-            if (variables.length > 1) {
-                for (int i = 0; i < variables.length; i += 2) {
-                    newLore = newLore.replace(variables[i], variables[i + 1]);
+        if (oldLores != null) {
+            List<String> newLores = new ArrayList<>();
+            for (String lore : oldLores) {
+                String newLore = StringUtil.replacePlayerPlaceholders(player, lore);
+                if (variables.length > 1) {
+                    for (int i = 0; i < variables.length; i += 2) {
+                        newLore = newLore.replace(variables[i], variables[i + 1]);
+                    }
                 }
+                newLores.add(Text.colorize(newLore));
             }
-            newLores.add(newLore);
+            stackBuilder.lore(newLores);
         }
-        return ItemStackBuilder.of(item).name(Text.colorize(newName)).newLore(Text.colorizeList(newLores)).build();
+        return stackBuilder.build();
     }
 
     public static ItemStack deserializeItemStack(ConfigurationSection section, Rank rank) { //TODO: remove the return null effects
