@@ -77,9 +77,29 @@ public final class ItemStackBuilder {
         });
     }
 
+    public ItemStackBuilder newLore(String... lines) {
+        return transformMeta(meta -> {
+            List<String> lore = new ArrayList<>();
+            for (String line : lines) {
+                lore.add(Text.colorize(line));
+            }
+            meta.setLore(lore);
+        });
+    }
+
     public ItemStackBuilder lore(Iterable<String> lines) {
         return transformMeta(meta -> {
             List<String> lore = meta.getLore() == null ? new ArrayList<>() : meta.getLore();
+            for (String line : lines) {
+                lore.add(Text.colorize(line));
+            }
+            meta.setLore(lore);
+        });
+    }
+
+    public ItemStackBuilder newLore(Iterable<String> lines) {
+        return transformMeta(meta -> {
+            List<String> lore = new ArrayList<>();
             for (String line : lines) {
                 lore.add(Text.colorize(line));
             }

@@ -7,6 +7,7 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionData;
@@ -20,6 +21,28 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemUtil {
+
+    public static ItemStack redesignPlaceholderItemStack(Player player, ItemStack item, String... variables) {
+        ItemMeta meta = item.getItemMeta();
+        String newName = StringUtil.replacePlayerPlaceholders(player, meta.getDisplayName());
+        if (variables.length > 1) {
+            for (int i = 0; i < variables.length; i += 2) {
+                newName = newName.replace(variables[i], variables[i + 1]);
+            }
+        }
+        List<String> oldLores = meta.getLore();
+        List<String> newLores = new ArrayList<>();
+        for (String lore : oldLores) {
+            String newLore = StringUtil.replacePlayerPlaceholders(player, lore);
+            if (variables.length > 1) {
+                for (int i = 0; i < variables.length; i += 2) {
+                    newLore = newLore.replace(variables[i], variables[i + 1]);
+                }
+            }
+            newLores.add(newLore);
+        }
+        return ItemStackBuilder.of(item).name(Text.colorize(newName)).newLore(Text.colorizeList(newLores)).build();
+    }
 
     public static ItemStack deserializeItemStack(ConfigurationSection section, Rank rank) { //TODO: remove the return null effects
         if (section.contains("template") && section.isString("template")) {

@@ -86,10 +86,10 @@ public class RankMenu extends NormalMenu {
             ranks.forEach(rank -> {
                 if (!rank.getGroup().equals(group)) {
                     if (finalIndexPlayer > rank.getQueue()) {
-                        addLast(ElementUtil.emptyElement(rank.getIconLow()));
+                        addLast(ElementUtil.emptyElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconLow())));
                     } else if (finalIndexPlayer < rank.getQueue()) {
                         if (rank.getQueue().equals(finalIndexPlayer + 1)) {
-                            addLast(new BasicElement(rank.getIconJump(),
+                            addLast(new BasicElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconJump()),
                                     new BasicTarget(e -> {
                                         e.cancel();
                                         boolean controlConditions = ConditionProvider.testAllConditions(player, rank);
@@ -100,13 +100,13 @@ public class RankMenu extends NormalMenu {
                                         e.closeView();
                                     })));
                         } else {
-                            addLast(ElementUtil.emptyElement(rank.getIconHigh()));
+                            addLast(ElementUtil.emptyElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconHigh())));
                         }
                     } else if (rank.getGroup().equals(group)) {
-                        addLast(ElementUtil.emptyElement(rank.getIconEqual()));
+                        addLast(ElementUtil.emptyElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconEqual())));
                     }
                 } else {
-                    addLast(ElementUtil.emptyElement(rank.getIconEqual()));
+                    addLast(ElementUtil.emptyElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconEqual())));
                 }
             });
         }

@@ -7,7 +7,7 @@ example_rank_1:
     jump:
       material: DIAMOND_BLOCK:0
       amount: 1
-      name: '&b%rank%'
+      name: '&b%rank% - %player_name%'
       lores:
         - "&aYou need $500 to raise your rank."
     high:
