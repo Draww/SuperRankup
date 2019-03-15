@@ -20,5 +20,10 @@ icons:
     lores:
       - '&aTest1'
       - '&eTest2'
+conditions:
+  custom_cond:
+    type: MONEY
+    message: "&cYou don't have enough money [&e{data}&c]"
+    data:
+      value: 500.00
 executors: {}
-conditions: {}

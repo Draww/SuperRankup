@@ -23,7 +23,7 @@ public class ItemUtil {
 
     public static ItemStack deserializeItemStack(ConfigurationSection section, Rank rank) { //TODO: remove the return null effects
         if (section.contains("template") && section.isString("template")) {
-            ConfigurationSection templateSection = Main.getInstance().getTemplateConfig().getConfigurationSection(section.getString("template.icons"));
+            ConfigurationSection templateSection = Main.getInstance().getTemplateConfig().getConfigurationSection("icons." + section.getString("template"));
             return deserializeItemStack(templateSection, rank);
         }
         if (!section.contains("material")) return null;
