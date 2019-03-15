@@ -24,7 +24,7 @@ public class ConditionProvider {
                 conditionMap.put(condKey, new Condition(condKey,
                         section.getInt(condKey + ".queue"),
                         rank,
-                        templateSection.getConfigurationSection("data").getValues(true),
+                        templateSection.getConfigurationSection("data"),
                         templateSection.getString("message"),
                         ConditionType.valueOf(templateSection.getString("type").toUpperCase())));
             } else {
@@ -34,7 +34,7 @@ public class ConditionProvider {
                 conditionMap.put(condKey, new Condition(condKey,
                         section.getInt(condKey + ".queue"),
                         rank,
-                        section.getConfigurationSection(condKey + ".data").getValues(true),
+                        section.getConfigurationSection(condKey + ".data"),
                         section.getString(condKey + ".message"),
                         ConditionType.valueOf(section.getString(condKey + ".type").toUpperCase())));
             }

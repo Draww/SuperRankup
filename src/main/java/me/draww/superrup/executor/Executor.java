@@ -1,23 +1,22 @@
 package me.draww.superrup.executor;
 
 import me.draww.superrup.Rank;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-
-import java.util.Map;
 
 public class Executor {
 
     private final String id;
     private final Integer queue;
     private final Rank rank;
-    private Map<String, Object> data;
+    private ConfigurationSection dataSection;
     private ExecutorType type;
 
-    public Executor(String id, Integer queue, Rank rank, Map<String, Object> data, ExecutorType type) {
+    public Executor(String id, Integer queue, Rank rank, ConfigurationSection dataSection, ExecutorType type) {
         this.id = id;
         this.queue = queue;
         this.rank = rank;
-        this.data = data;
+        this.dataSection = dataSection;
         this.type = type;
     }
 
@@ -37,12 +36,12 @@ public class Executor {
         return rank;
     }
 
-    public Map<String, Object> getData() {
-        return data;
+    public ConfigurationSection getDataSection() {
+        return dataSection;
     }
 
-    public void setData(Map<String, Object> data) {
-        this.data = data;
+    public void setDataSection(ConfigurationSection dataSection) {
+        this.dataSection = dataSection;
     }
 
     public ExecutorType getType() {

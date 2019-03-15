@@ -1,24 +1,23 @@
 package me.draww.superrup.condition;
 
 import me.draww.superrup.Rank;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-
-import java.util.Map;
 
 public class Condition {
 
     private final String id;
     private final Integer queue;
     private final Rank rank;
-    private Map<String, Object> requiredData;
+    private ConfigurationSection requiredDataSection;
     private String message;
     private ConditionType type;
 
-    public Condition(String id, Integer queue, Rank rank, Map<String, Object> requiredData, String message, ConditionType type) {
+    public Condition(String id, Integer queue, Rank rank, ConfigurationSection requiredDataSection, String message, ConditionType type) {
         this.id = id;
         this.queue = queue;
         this.rank = rank;
-        this.requiredData = requiredData;
+        this.requiredDataSection = requiredDataSection;
         this.message = message;
         this.type = type;
     }
@@ -39,12 +38,12 @@ public class Condition {
         return rank;
     }
 
-    public Map<String, Object> getRequiredData() {
-        return requiredData;
+    public ConfigurationSection getRequiredDataSection() {
+        return requiredDataSection;
     }
 
-    public void setRequiredData(Map<String, Object> requiredData) {
-        this.requiredData = requiredData;
+    public void setRequiredDataSection(ConfigurationSection requiredDataSection) {
+        this.requiredDataSection = requiredDataSection;
     }
 
     public String getMessage() {

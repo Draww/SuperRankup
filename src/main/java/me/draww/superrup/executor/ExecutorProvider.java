@@ -23,7 +23,7 @@ public class ExecutorProvider {
                 executorMap.put(executorKey, new Executor(executorKey,
                         section.getInt(executorKey + ".queue"),
                         rank,
-                        templateSection.getConfigurationSection("data").getValues(true),
+                        templateSection.getConfigurationSection("data"),
                         ExecutorType.valueOf(templateSection.getString("type").toUpperCase())));
             } else {
                 if ((!section.contains(executorKey + ".type") && !section.isString(executorKey + ".type"))
@@ -32,7 +32,7 @@ public class ExecutorProvider {
                 executorMap.put(executorKey, new Executor(executorKey,
                         section.getInt(executorKey + ".queue"),
                         rank,
-                        section.getConfigurationSection(executorKey + ".data").getValues(true),
+                        section.getConfigurationSection(executorKey + ".data"),
                         ExecutorType.valueOf(section.getString(executorKey + ".type").toUpperCase())));
             }
         }

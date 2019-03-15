@@ -15,70 +15,76 @@ import java.util.function.BiConsumer;
 
 public enum ExecutorType {
     MESSAGE((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         data = StringUtil.replacePlayerPlaceholders(player, data
-                .replace("%rank%", executor.getRank().getId()));
+                .replace("%rank%", executor.getRank().getId())
+                .replace("%rank_group%", executor.getRank().getGroup()));
         player.sendMessage(Text.colorize(data));
     }),
     ACTIONBAR_MESSAGE((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         data = StringUtil.replacePlayerPlaceholders(player, data
-                .replace("%rank%", executor.getRank().getId()));
+                .replace("%rank%", executor.getRank().getId())
+                .replace("%rank_group%", executor.getRank().getGroup()));
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Text.colorize(data)));
     }),
     BROADCAST_MESSAGE((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         data = StringUtil.replacePlayerPlaceholders(player, data
-                .replace("%rank%", executor.getRank().getId()));
+                .replace("%rank%", executor.getRank().getId())
+                .replace("%rank_group%", executor.getRank().getGroup()));
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(Text.colorize(StringUtil.replacePlayerPlaceholders(p, data.replace("%loopPlayer", "%player"))));
         }
     }),
     BROADCAST_ACTIONBAR_MESSAGE((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         data = StringUtil.replacePlayerPlaceholders(player, data
-                .replace("%rank%", executor.getRank().getId()));
+                .replace("%rank%", executor.getRank().getId())
+                .replace("%rank_group%", executor.getRank().getGroup()));
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Text.colorize(StringUtil.replacePlayerPlaceholders(p, data.replace("%loopPlayer", "%player")))));
         }
     }),
     WITHDRAW_MONEY((player, executor) -> {
-        double data;
-        try {
-            data = (double) executor.getData().get("value");
-        } catch (Exception e) {
-            return;
-        }
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isDouble("value")) return;
+        double data = executor.getDataSection().getDouble("value");
         Main.getInstance().getVaultEconomy().withdrawPlayer(player, data);
     }),
     DEPOSIT_MONEY((player, executor) -> {
-        double data;
-        try {
-            data = (double) executor.getData().get("value");
-        } catch (Exception e) {
-            return;
-        }
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isDouble("value")) return;
+        double data = executor.getDataSection().getDouble("value");
         Main.getInstance().getVaultEconomy().depositPlayer(player, data);
     }),
     CONSOLE_COMMAND((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         data = StringUtil.replacePlayerPlaceholders(player, data
-                .replace("%rank%", executor.getRank().getId()));
+                .replace("%rank%", executor.getRank().getId())
+                .replace("%rank_group%", executor.getRank().getGroup()));
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), data);
     }),
     PLAYER_COMMAND((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         data = StringUtil.replacePlayerPlaceholders(player, data
-                .replace("%rank%", executor.getRank().getId()));
+                .replace("%rank%", executor.getRank().getId())
+                .replace("%rank_group%", executor.getRank().getGroup()));
         player.performCommand(data);
     }),
     SOUND((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         final float soundFloat = 1.0f;
         player.playSound(player.getLocation(), Sound.valueOf(data.toUpperCase()), soundFloat, soundFloat);
     }),
     TELEPORT((player, executor) -> {
-        String data = (String) executor.getData().get("value");
+        if (!executor.getDataSection().contains("value") || !executor.getDataSection().isString("value")) return;
+        String data = executor.getDataSection().getString("value");
         final String[] location = data.split(";");
         Location destination = null;
         if (location.length == 4){
