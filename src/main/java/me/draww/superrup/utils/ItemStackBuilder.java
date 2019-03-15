@@ -1,6 +1,5 @@
 package me.draww.superrup.utils;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

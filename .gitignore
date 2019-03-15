@@ -27,3 +27,5 @@ target/
 SuperRankup\.iml
 
 \.idea/
+
+dependency-reduced-pom\.xml

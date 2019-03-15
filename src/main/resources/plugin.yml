@@ -4,3 +4,13 @@ version: ${project.version}
 author: draww
 website: https://draww.me/
 softdepend: [Vault, LuckPerms, PermissionsEx, PlaceholderAPI]
+permissions:
+  superrup.*:
+    default: false
+    children:
+      superrup.reload:
+        default: op
+        description: reload all configs
+      superrup.menu:
+        default: true
+        description: open rank menu

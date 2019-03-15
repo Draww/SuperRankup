@@ -7,6 +7,7 @@ import me.draww.superrup.group.LuckPermsGroupManager;
 import me.draww.superrup.group.PermissionsExGroupManager;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,6 +24,8 @@ public class Main extends JavaPlugin {
     private Economy vaultEconomy;
 
     private BukkitCommandManager commandManager;
+
+    private Metrics metrics;
 
     @Override
     public void onEnable() {
@@ -45,6 +48,7 @@ public class Main extends JavaPlugin {
         commandManager = new BukkitCommandManager(this);
         commandManager.registerCommand(new RankCommand());
         new Blackness().prepareFor(this);
+        metrics = new Metrics(this);
     }
 
     public boolean controlPlaceholderAPI() {
@@ -116,5 +120,9 @@ public class Main extends JavaPlugin {
 
     public BukkitCommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public Metrics getMetrics() {
+        return metrics;
     }
 }
