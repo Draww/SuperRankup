@@ -59,7 +59,7 @@ public class ItemUtil {
             String name = section.getString("name");
             if (rank != null) {
                 name = name
-                        .replace("{rank}", rank.getId());
+                        .replace("%rank%", rank.getId());
             }
             controlMeta.setDisplayName(Text.colorize(name));
         }

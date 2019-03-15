@@ -47,6 +47,10 @@ public class Main extends JavaPlugin {
         new Blackness().prepareFor(this);
     }
 
+    public boolean controlPlaceholderAPI() {
+        return this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
+    }
+
     private boolean initVaultManager() {
         if (this.getServer().getPluginManager().getPlugin("Vault") instanceof Vault) {
             RegisteredServiceProvider<Economy> serviceProvider = this.getServer().getServicesManager().getRegistration(Economy.class);

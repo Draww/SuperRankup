@@ -3,4 +3,4 @@ main: me.draww.superrup.Main
 version: ${project.version}
 author: draww
 website: https://draww.me/
-softdepend: [Vault, LuckPerms, PermissionsEx]
+softdepend: [Vault, LuckPerms, PermissionsEx, PlaceholderAPI]

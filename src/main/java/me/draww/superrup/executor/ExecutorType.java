@@ -1,6 +1,7 @@
 package me.draww.superrup.executor;
 
 import me.draww.superrup.Main;
+import me.draww.superrup.utils.StringUtil;
 import me.draww.superrup.utils.Text;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -15,34 +16,30 @@ import java.util.function.BiConsumer;
 public enum ExecutorType {
     MESSAGE((player, executor) -> {
         String data = (String) executor.getData().get("value");
-        data = data
-                .replace("{rank}", executor.getRank().getId())
-                .replace("{player}", player.getName());
+        data = StringUtil.replacePlayerPlaceholders(player, data
+                .replace("%rank%", executor.getRank().getId()));
         player.sendMessage(Text.colorize(data));
     }),
     ACTIONBAR_MESSAGE((player, executor) -> {
         String data = (String) executor.getData().get("value");
-        data = data
-                .replace("{rank}", executor.getRank().getId())
-                .replace("{player}", player.getName());
+        data = StringUtil.replacePlayerPlaceholders(player, data
+                .replace("%rank%", executor.getRank().getId()));
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Text.colorize(data)));
     }),
     BROADCAST_MESSAGE((player, executor) -> {
         String data = (String) executor.getData().get("value");
-        data = data
-                .replace("{rank}", executor.getRank().getId())
-                .replace("{player}", player.getName());
+        data = StringUtil.replacePlayerPlaceholders(player, data
+                .replace("%rank%", executor.getRank().getId()));
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(Text.colorize(data.replace("{loopPlayer}", p.getName())));
+            p.sendMessage(Text.colorize(StringUtil.replacePlayerPlaceholders(p, data.replace("%loopPlayer", "%player"))));
         }
     }),
     BROADCAST_ACTIONBAR_MESSAGE((player, executor) -> {
         String data = (String) executor.getData().get("value");
-        data = data
-                .replace("{rank}", executor.getRank().getId())
-                .replace("{player}", player.getName());
+        data = StringUtil.replacePlayerPlaceholders(player, data
+                .replace("%rank%", executor.getRank().getId()));
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Text.colorize(data.replace("{loopPlayer}", p.getName()))));
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Text.colorize(StringUtil.replacePlayerPlaceholders(p, data.replace("%loopPlayer", "%player")))));
         }
     }),
     WITHDRAW_MONEY((player, executor) -> {
@@ -65,16 +62,14 @@ public enum ExecutorType {
     }),
     CONSOLE_COMMAND((player, executor) -> {
         String data = (String) executor.getData().get("value");
-        data = data
-                .replace("{rank}", executor.getRank().getId())
-                .replace("{player}", player.getName());
+        data = StringUtil.replacePlayerPlaceholders(player, data
+                .replace("%rank%", executor.getRank().getId()));
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), data);
     }),
     PLAYER_COMMAND((player, executor) -> {
         String data = (String) executor.getData().get("value");
-        data = data
-                .replace("{rank}", executor.getRank().getId())
-                .replace("{player}", player.getName());
+        data = StringUtil.replacePlayerPlaceholders(player, data
+                .replace("%rank%", executor.getRank().getId()));
         player.performCommand(data);
     }),
     SOUND((player, executor) -> {

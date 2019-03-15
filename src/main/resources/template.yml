@@ -2,28 +2,28 @@ icons:
   custom_low:
     material: OBSIDIAN:0
     amount: 1
-    name: '&bPassed &a{rank}'
+    name: '&bPassed &a%rank%'
     lores:
       - '&aTest1'
       - '&eTest2'
   custom_high:
     material: OBSIDIAN:0
     amount: 1
-    name: '&bHigh &a{rank}'
+    name: '&bHigh &a%rank%'
     lores:
       - '&aTest1'
       - '&eTest2'
   custom_equal:
     material: OBSIDIAN:0
     amount: 1
-    name: '&bEqual &a{rank}'
+    name: '&bEqual &a%rank%'
     lores:
       - '&aTest1'
       - '&eTest2'
 conditions:
   custom_cond:
     type: MONEY
-    message: "&cYou don't have enough money [&e{data}&c]"
+    message: "&cYou don't have enough money [&e%data%&c]"
     data:
       value: 500.00
 executors: {}

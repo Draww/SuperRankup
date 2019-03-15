@@ -7,7 +7,7 @@ example_rank_1:
     jump:
       material: DIAMOND_BLOCK:0
       amount: 1
-      name: '&b{rank}'
+      name: '&b%rank%'
       lores:
         - "&aYou need $500 to raise your rank."
     high:
@@ -17,7 +17,7 @@ example_rank_1:
   conditions:
     cond_1:
       type: MONEY
-      message: "&cYou don't have enough money [&e{data}&c]"
+      message: "&cYou don't have enough money [&e%data%&c]"
       data:
         value: 500.00
     cond_2:

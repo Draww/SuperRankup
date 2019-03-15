@@ -80,6 +80,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -148,6 +152,12 @@
             <scope>system</scope>
             <systemPath>${lib.dir}/PermissionsEx-1.23.4.jar</systemPath>
             <version>1.23.4</version>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.9.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

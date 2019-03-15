@@ -1,6 +1,7 @@
 package me.draww.superrup.condition;
 
 import me.draww.superrup.Main;
+import me.draww.superrup.utils.StringUtil;
 import me.draww.superrup.utils.Text;
 import org.bukkit.entity.Player;
 
@@ -17,7 +18,7 @@ public enum ConditionType {
         }
         double money = Main.getInstance().getVaultEconomy().getBalance(player);
         if (Double.compare(money, data) == -1) {
-            message(player, condition.getMessage(), condition.getRequiredData());
+            message(player, condition.getMessage(), condition);
             return false;
         }
         return true;
@@ -30,7 +31,7 @@ public enum ConditionType {
             return false;
         }
         if (player.getExp() != data) {
-            message(player, condition.getMessage(), condition.getRequiredData());
+            message(player, condition.getMessage(), condition);
             return false;
         }
         return true;
@@ -46,12 +47,15 @@ public enum ConditionType {
         return predicate;
     }
 
-    private static void message(Player player, String message, Map<String, Object> replaceData) {
+    private static void message(Player player, String message, Condition condition) {
+        Map<String, Object> replaceData = condition.getRequiredData();
         if (replaceData != null) {
             for (Map.Entry<String, Object> entry : replaceData.entrySet()) {
-                message = message.replace("{" + entry.getKey().toLowerCase() + "}", String.valueOf(entry.getValue()));
+                message = message.replace("%" + entry.getKey().toLowerCase() + "%", String.valueOf(entry.getValue()));
             }
         }
+        message = StringUtil.replacePlayerPlaceholders(player, message
+                .replace("%rank%", condition.getRank().getId()));
         player.sendMessage(Text.colorize(message));
     }
 }
