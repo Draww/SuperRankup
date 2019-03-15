@@ -92,10 +92,10 @@ public class RankMenu extends NormalMenu {
                             addLast(new BasicElement(rank.getIconJump(),
                                     new BasicTarget(e -> {
                                         e.cancel();
-                                        boolean controlConditions = ConditionProvider.testAllConditions(player, new ArrayList<>(rank.getConditions().values()));
+                                        boolean controlConditions = ConditionProvider.testAllConditions(player, rank);
                                         if (controlConditions) {
                                             Main.getInstance().getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
-                                            ExecutorProvider.runAllExecutors(player, new ArrayList<>(rank.getExecutors().values()));
+                                            ExecutorProvider.runAllExecutors(player, rank);
                                         }
                                         e.closeView();
                                     })));

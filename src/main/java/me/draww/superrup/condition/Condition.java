@@ -8,13 +8,15 @@ import java.util.Map;
 public class Condition {
 
     private final String id;
+    private final Integer queue;
     private final Rank rank;
     private Map<String, Object> requiredData;
     private String message;
     private ConditionType type;
 
-    public Condition(String id, Rank rank, Map<String, Object> requiredData, String message, ConditionType type) {
+    public Condition(String id, Integer queue, Rank rank, Map<String, Object> requiredData, String message, ConditionType type) {
         this.id = id;
+        this.queue = queue;
         this.rank = rank;
         this.requiredData = requiredData;
         this.message = message;
@@ -27,6 +29,10 @@ public class Condition {
 
     public String getId() {
         return id;
+    }
+
+    public Integer getQueue() {
+        return queue;
     }
 
     public Rank getRank() {

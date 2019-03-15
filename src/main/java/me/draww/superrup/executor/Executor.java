@@ -8,12 +8,14 @@ import java.util.Map;
 public class Executor {
 
     private final String id;
+    private final Integer queue;
     private final Rank rank;
     private Map<String, Object> data;
     private ExecutorType type;
 
-    public Executor(String id, Rank rank, Map<String, Object> data, ExecutorType type) {
+    public Executor(String id, Integer queue, Rank rank, Map<String, Object> data, ExecutorType type) {
         this.id = id;
+        this.queue = queue;
         this.rank = rank;
         this.data = data;
         this.type = type;
@@ -25,6 +27,10 @@ public class Executor {
 
     public String getId() {
         return id;
+    }
+
+    public Integer getQueue() {
+        return queue;
     }
 
     public Rank getRank() {

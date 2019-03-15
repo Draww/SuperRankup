@@ -13,24 +13,34 @@ public class ExecutorProvider {
 
     public static Map<String, Executor> deserializeExecutors(ConfigurationSection section, Rank rank) {
         if (section == null) return new HashMap<>();
-        if (section.contains("template") && section.isString("template")) {
-            ConfigurationSection templateSection = Main.getInstance().getTemplateConfig().getConfigurationSection("executors." + section.getString("template"));
-            return deserializeExecutors(templateSection, rank);
-        }
         Map<String, Executor> executorMap = new HashMap<>();
         for (String executorKey : section.getKeys(false)) {
-            if ((!section.contains(executorKey + ".type") && ! section.isString(executorKey + ".type"))
-                    || (!section.contains(executorKey + ".message") && ! section.isString(executorKey + ".message"))) continue;
-            executorMap.put(executorKey, new Executor(executorKey,
-                    rank,
-                    section.getConfigurationSection(executorKey + ".data").getValues(true),
-                    ExecutorType.valueOf(section.getString(executorKey + ".type").toUpperCase())));
+            if (section.contains(executorKey + ".template") && section.isString(executorKey + ".template")) {
+                ConfigurationSection templateSection = Main.getInstance().getTemplateConfig().getConfigurationSection("executors." + section.getString(executorKey + ".template"));
+                if ((!templateSection.contains("type") && !templateSection.isString("type"))
+                        || (!section.contains(executorKey + ".queue") && !section.isInt(executorKey + ".queue")))
+                    continue;
+                executorMap.put(executorKey, new Executor(executorKey,
+                        section.getInt(executorKey + ".queue"),
+                        rank,
+                        templateSection.getConfigurationSection("data").getValues(true),
+                        ExecutorType.valueOf(templateSection.getString("type").toUpperCase())));
+            } else {
+                if ((!section.contains(executorKey + ".type") && !section.isString(executorKey + ".type"))
+                        || (!section.contains(executorKey + ".queue") && !section.isInt(executorKey + ".queue")))
+                    continue;
+                executorMap.put(executorKey, new Executor(executorKey,
+                        section.getInt(executorKey + ".queue"),
+                        rank,
+                        section.getConfigurationSection(executorKey + ".data").getValues(true),
+                        ExecutorType.valueOf(section.getString(executorKey + ".type").toUpperCase())));
+            }
         }
         return executorMap;
     }
 
-    public static void runAllExecutors(Player player, List<Executor> executors) {
-        for (Executor executor : executors) {
+    public static void runAllExecutors(Player player, Rank rank) {
+        for (Executor executor : rank.getSortedExecutors()) {
             executor.run(player);
         }
     }

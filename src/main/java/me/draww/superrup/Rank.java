@@ -4,7 +4,10 @@ import me.draww.superrup.condition.Condition;
 import me.draww.superrup.executor.Executor;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Rank {
 
@@ -36,6 +39,14 @@ public class Rank {
         this.id = id;
         this.group = group;
         this.queue = queue;
+    }
+
+    public List<Condition> getSortedConditions() {
+        return conditions.values().stream().sorted(Comparator.comparingInt(Condition::getQueue)).collect(Collectors.toList());
+    }
+
+    public List<Executor> getSortedExecutors() {
+        return executors.values().stream().sorted(Comparator.comparingInt(Executor::getQueue)).collect(Collectors.toList());
     }
 
     public String getId() {

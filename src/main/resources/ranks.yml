@@ -16,9 +16,20 @@ example_rank_1:
       template: custom_equal
   conditions:
     cond_1:
+      queue: 1
       type: MONEY
-      message: "&cYou don't have enough money [&e%data%&c]"
+      message: "&cYou don't have enough money [&e%value%&c]"
       data:
         value: 500.00
     cond_2:
+      queue: 2
       template: custom_cond
+  executors:
+    exec_1:
+      queue: 1
+      type: MESSAGE
+      data:
+        value: "&atest message &e%player_name% &aand &6%rank%"
+    exec_2:
+      queue: 2
+      template: custom_exec
