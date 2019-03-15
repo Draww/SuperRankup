@@ -52,7 +52,7 @@ public final class ItemStackBuilder {
     }
 
     public ItemStackBuilder name(String name) {
-        return transformMeta(meta -> meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name)));
+        return transformMeta(meta -> meta.setDisplayName(Text.colorize(name)));
     }
 
     public ItemStackBuilder type(Material material) {
