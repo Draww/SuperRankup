@@ -6,12 +6,12 @@
 
     <groupId>me.draww</groupId>
     <artifactId>SuperRankup</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lib.dir>${project.basedir}/libs</lib.dir>
-        <build.type>SNAPSHOT</build.type>
+        <build.type>stable</build.type>
     </properties>
 
     <build>
