@@ -18,6 +18,7 @@ public class Main extends JavaPlugin {
     private Config config;
     private Config ranksConfig;
     private Config templateConfig;
+    private Config languageConfig;
 
     private IGroupManager groupManager;
     private RankManager rankManager;
@@ -33,6 +34,7 @@ public class Main extends JavaPlugin {
         config = new Config(this, "config.yml", true);
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
+        languageConfig = new Config(this, "language.yml", true);
         if (!initGroupManager()) {
             getLogger().severe("group manager was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
@@ -87,6 +89,7 @@ public class Main extends JavaPlugin {
         config.load();
         ranksConfig.load();
         templateConfig.load();
+        languageConfig.load();
         rankManager.reload();
     }
 
@@ -104,6 +107,10 @@ public class Main extends JavaPlugin {
 
     public Config getTemplateConfig() {
         return templateConfig;
+    }
+
+    public Config getLanguageConfig() {
+        return languageConfig;
     }
 
     public IGroupManager getGroupManager() {
