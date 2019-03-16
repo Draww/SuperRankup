@@ -15,7 +15,7 @@ public class RankCommand extends BaseCommand {
     @Default
     @CommandPermission("superrup.menu")
     public void onOpen(Player player) {
-        new RankMenu(player).showTo(player);
+        new RankMenu(player);
     }
 
     @Subcommand("reload")

@@ -114,6 +114,7 @@ public class RankMenu extends NormalMenu {
             });
         }
         build(getPane("ranks", 0), getPane("updowninfo", 0));
+        showTo(player);
     }
 
     private void addLast(Element element) {
