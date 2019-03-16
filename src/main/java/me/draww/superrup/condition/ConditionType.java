@@ -1,11 +1,15 @@
 package me.draww.superrup.condition;
 
 import me.draww.superrup.Main;
+import me.draww.superrup.utils.InventoryUtil;
+import me.draww.superrup.utils.ItemUtil;
 import me.draww.superrup.utils.StringUtil;
 import me.draww.superrup.utils.Text;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiPredicate;
 
 public enum ConditionType {
@@ -23,6 +27,20 @@ public enum ConditionType {
         if (!condition.getRequiredDataSection().contains("value") || !condition.getRequiredDataSection().isInt("value")) return false;
         Integer data = condition.getRequiredDataSection().getInt("value");
         if (player.getExp() != data) {
+            message(player, condition.getMessage(), condition);
+            return false;
+        }
+        return true;
+    }),
+    HAS_ITEM((player, condition) -> {
+        if (!condition.getRequiredDataSection().contains("item") || !condition.getRequiredDataSection().isConfigurationSection("item")) return false;
+        ItemStack serializeItem;
+        try {
+            serializeItem = ItemUtil.redesignPlaceholderItemStack(player, Objects.requireNonNull(ItemUtil.deserializeItemStack(condition.getRequiredDataSection().getConfigurationSection("item"), condition.getRank())));
+        } catch (NullPointerException e) {
+            return false;
+        }
+        if (!InventoryUtil.hasItems(new ItemStack[]{serializeItem}, player.getInventory())) {
             message(player, condition.getMessage(), condition);
             return false;
         }

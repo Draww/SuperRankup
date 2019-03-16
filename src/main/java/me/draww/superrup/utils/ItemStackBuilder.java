@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  * Easily construct {@link ItemStack} instances
  */
 public final class ItemStackBuilder {
-    private static final ItemFlag[] ALL_FLAGS = new ItemFlag[]{
+    public static final ItemFlag[] ALL_FLAGS = new ItemFlag[]{
             ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES,
             ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS,
             ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_PLACED_ON
@@ -25,11 +25,27 @@ public final class ItemStackBuilder {
     private final ItemStack itemStack;
 
     public static ItemStackBuilder of(Material material) {
-        return new ItemStackBuilder(new ItemStack(material)).hideAttributes();
+        return new ItemStackBuilder(new ItemStack(material));
+    }
+
+    public static ItemStackBuilder of(Material material, boolean hideAttr) {
+        ItemStackBuilder stackBuilder = new ItemStackBuilder(new ItemStack(material));
+        if (hideAttr) {
+            return stackBuilder.hideAttributes();
+        }
+        return stackBuilder;
     }
 
     public static ItemStackBuilder of(ItemStack itemStack) {
-        return new ItemStackBuilder(itemStack).hideAttributes();
+        return new ItemStackBuilder(itemStack);
+    }
+
+    public static ItemStackBuilder of(ItemStack itemStack, boolean hideAttr) {
+        ItemStackBuilder stackBuilder = new ItemStackBuilder(new ItemStack(itemStack));
+        if (hideAttr) {
+            return stackBuilder.hideAttributes();
+        }
+        return stackBuilder;
     }
 
     private ItemStackBuilder(ItemStack itemStack) {

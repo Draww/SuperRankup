@@ -24,6 +24,14 @@ example_rank_1:
     cond_2:
       queue: 2
       template: custom_cond
+    cond_3:
+      queue: 3
+      type: HAS_ITEM
+      message: "&cYou don't have 3 Apple."
+      data:
+        item:
+          material: APPLE
+          amount: 3
   executors:
     exec_1:
       queue: 1
@@ -33,3 +41,18 @@ example_rank_1:
     exec_2:
       queue: 2
       template: custom_exec
+    exec_3:
+      queue: 3
+      type: REMOVE_ITEM
+      data:
+        item:
+          material: APPLE
+          amount: 3
+    exec_4:
+      queue: 4
+      type: GIVE_ITEM
+      data:
+        item:
+          material: DIAMOND_BLOCK
+          amount: 3
+          name: "&b%rank_group% Gift 1"

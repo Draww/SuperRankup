@@ -23,14 +23,19 @@ import java.util.Map;
 public class ItemUtil {
 
     public static ItemStack redesignPlaceholderItemStack(Player player, ItemStack item, String... variables) {
-        ItemMeta meta = item.getItemMeta();
-        String newName = StringUtil.replacePlayerPlaceholders(player, meta.getDisplayName());
-        if (variables.length > 1) {
-            for (int i = 0; i < variables.length; i += 2) {
-                newName = newName.replace(variables[i], variables[i + 1]);
+        ItemStack newItem = item.clone();
+        ItemMeta meta = newItem.getItemMeta();
+        ItemStackBuilder stackBuilder = ItemStackBuilder.of(newItem);
+        String oldName = meta.getDisplayName();
+        if (oldName != null) {
+            String newName = StringUtil.replacePlayerPlaceholders(player, oldName);
+            if (variables.length > 1) {
+                for (int i = 0; i < variables.length; i += 2) {
+                    newName = newName.replace(variables[i], variables[i + 1]);
+                }
             }
+            stackBuilder.name(Text.colorize(newName));
         }
-        ItemStackBuilder stackBuilder = ItemStackBuilder.of(item).name(Text.colorize(newName));
         List<String> oldLores = meta.getLore();
         if (oldLores != null) {
             List<String> newLores = new ArrayList<>();
@@ -43,12 +48,12 @@ public class ItemUtil {
                 }
                 newLores.add(Text.colorize(newLore));
             }
-            stackBuilder.lore(newLores);
+            stackBuilder.newLore(newLores);
         }
         return stackBuilder.build();
     }
 
-    public static ItemStack deserializeItemStack(ConfigurationSection section, Rank rank) { //TODO: remove the return null effects
+    public static ItemStack deserializeItemStack(ConfigurationSection section, Rank rank) {
         if (section.contains("template") && section.isString("template")) {
             ConfigurationSection templateSection = Main.getInstance().getTemplateConfig().getConfigurationSection("icons." + section.getString("template"));
             return deserializeItemStack(templateSection, rank);

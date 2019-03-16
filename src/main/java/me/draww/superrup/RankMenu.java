@@ -16,7 +16,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RankMenu extends NormalMenu {
@@ -42,7 +41,7 @@ public class RankMenu extends NormalMenu {
                 config.getInt("menu.panes.up_down_info.y"),
                 config.getInt("menu.panes.up_down_info.height"),
                 config.getInt("menu.panes.up_down_info.length")));
-        insertElement("updowninfo", 0, new BasicElement(ItemStackBuilder.of(Material.ARROW).name("&c<---").build(),
+        insertElement("updowninfo", 0, new BasicElement(ItemStackBuilder.of(Material.ARROW, true).name("&c<---").build(),
                         new BasicTarget(e -> {
                             e.cancel();
                             int localCurrentPage = currentPage - 1;
@@ -55,7 +54,7 @@ public class RankMenu extends NormalMenu {
                         })), config.getInt("menu.panes.up_down_info.elements.down.x"),
                 config.getInt("menu.panes.up_down_info.elements.down.y"), false);
         setCurrentPageElement();
-        insertElement("updowninfo", 0, new BasicElement(ItemStackBuilder.of(Material.ARROW).name("&c--->").build(),
+        insertElement("updowninfo", 0, new BasicElement(ItemStackBuilder.of(Material.ARROW, true).name("&c--->").build(),
                         new BasicTarget(e -> {
                             e.cancel();
                             int localCurrentPage = currentPage + 1;
@@ -125,7 +124,7 @@ public class RankMenu extends NormalMenu {
 
     private void setCurrentPageElement() {
         insertElement("updowninfo", 0,
-                ElementUtil.emptyElement(ItemStackBuilder.of(Material.MAGMA_CREAM).name("&c&l" + currentPage).build()),
+                ElementUtil.emptyElement(ItemStackBuilder.of(Material.MAGMA_CREAM, true).name("&c&l" + currentPage).build()),
                 config.getInt("menu.panes.up_down_info.elements.info.x"),
                 config.getInt("menu.panes.up_down_info.elements.info.y"), false);
     }
