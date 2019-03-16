@@ -31,6 +31,11 @@ public class RankMenu extends NormalMenu {
         this.config = Main.getInstance().getMainConfig().getConfig();
         this.player = player;
         this.currentPage = 1;
+        String group = Main.getInstance().getGroupManager().getPlayerPrimaryGroup(player);
+        if (Main.getInstance().getMainConfig().getConfig().getStringList("disabled_groups").contains(group)) {
+            player.sendMessage(Text.colorize(Main.getInstance().getLanguageConfig().getConfig().getString("disable_group")));
+            return;
+        }
         add("ranks");
         add("updowninfo");
         addPane("ranks", new BasicPane(config.getInt("menu.panes.rank.x"),
@@ -73,7 +78,6 @@ public class RankMenu extends NormalMenu {
         }
         List<Rank> ranks = Main.getInstance().getRankManager().getSortedRanks();
         if (ranks != null && !ranks.isEmpty()) {
-            String group = Main.getInstance().getGroupManager().getPlayerPrimaryGroup(player);
             Integer indexPlayer = null;
             for (Rank rank : ranks.toArray(new Rank[0])) {
                 if (rank.getGroup().equals(group)) {

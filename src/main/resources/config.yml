@@ -1,5 +1,8 @@
 # Permission Providers : LuckPerms, PermissionsEx
 permission_provider: LuckPerms
+disabled_groups:
+  - VIP
+  - ExampleVIP
 menu:
   title: "&aRank Menu"
   size: 5 # Minimum 1, Maximum 6
