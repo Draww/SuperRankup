@@ -52,7 +52,7 @@ public class InventoryUtil {
         int itemAmount = 0;
 
         for (ItemStack iStack : items.values()) {
-            if (!MaterialUtil.equals(iStack, item)) {
+            if (!ItemUtil.equals(iStack, item)) {
                 continue;
             }
             itemAmount += iStack.getAmount();
@@ -68,7 +68,7 @@ public class InventoryUtil {
      */
     public static boolean isEmpty(Inventory inventory) {
         for (ItemStack stack : getStorageContents(inventory)) {
-            if (!MaterialUtil.isEmpty(stack)) {
+            if (!ItemUtil.isEmpty(stack)) {
                 return false;
             }
         }
@@ -85,7 +85,7 @@ public class InventoryUtil {
     public static int countEmpty(Inventory inventory) {
         int emptyAmount = 0;
         for (ItemStack stack : getStorageContents(inventory)) {
-            if (MaterialUtil.isEmpty(stack)) {
+            if (ItemUtil.isEmpty(stack)) {
                 emptyAmount++;
             }
         }
@@ -149,12 +149,12 @@ public class InventoryUtil {
                 return true;
             }
 
-            if (MaterialUtil.isEmpty(iStack)) {
+            if (ItemUtil.isEmpty(iStack)) {
                 left -= getMaxStackSize(item);
                 continue;
             }
 
-            if (!MaterialUtil.equals(iStack, item)) {
+            if (!ItemUtil.equals(iStack, item)) {
                 continue;
             }
 
@@ -190,13 +190,13 @@ public class InventoryUtil {
         for (int currentSlot = 0; currentSlot < effectiveSize(inventory) && amountLeft > 0; currentSlot++) {
             ItemStack currentItem = inventory.getItem(currentSlot);
 
-            if (MaterialUtil.isEmpty(currentItem)) {
+            if (ItemUtil.isEmpty(currentItem)) {
                 currentItem = new ItemStack(item);
                 currentItem.setAmount(Math.min(amountLeft, maxStackSize));
                 inventory.setItem(currentSlot, currentItem);
 
                 amountLeft -= currentItem.getAmount();
-            } else if (currentItem.getAmount() < maxStackSize && MaterialUtil.equals(currentItem, item)) {
+            } else if (currentItem.getAmount() < maxStackSize && ItemUtil.equals(currentItem, item)) {
                 int neededToAdd = Math.min(maxStackSize - currentItem.getAmount(), amountLeft);
 
                 currentItem.setAmount(currentItem.getAmount() + neededToAdd);
@@ -260,7 +260,7 @@ public class InventoryUtil {
         for (int currentSlot = 0; currentSlot < effectiveSize(inventory) && amountLeft > 0; currentSlot++) {
             ItemStack currentItem = inventory.getItem(currentSlot);
 
-            if (currentItem != null && MaterialUtil.equals(currentItem, item)) {
+            if (currentItem != null && ItemUtil.equals(currentItem, item)) {
                 int neededToRemove = Math.min(currentItem.getAmount(), amountLeft);
 
                 currentItem.setAmount(currentItem.getAmount() - neededToRemove);
@@ -288,7 +288,7 @@ public class InventoryUtil {
         Iterating:
         for (ItemStack item : items) {
             for (ItemStack iStack : itemList) {
-                if (MaterialUtil.equals(item, iStack)) {
+                if (ItemUtil.equals(item, iStack)) {
                     iStack.setAmount(iStack.getAmount() + item.getAmount());
                     continue Iterating;
                 }

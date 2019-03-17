@@ -16,11 +16,7 @@ import java.util.function.Consumer;
  * Easily construct {@link ItemStack} instances
  */
 public final class ItemStackBuilder {
-    public static final ItemFlag[] ALL_FLAGS = new ItemFlag[]{
-            ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES,
-            ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS,
-            ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_PLACED_ON
-    };
+    public static final ItemFlag[] ALL_FLAGS = ItemFlag.values();
 
     private final ItemStack itemStack;
 
