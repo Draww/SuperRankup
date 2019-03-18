@@ -203,8 +203,8 @@ public class ItemUtil {
                 createdItem.setItemMeta(potionMeta);
             }
         } else if (controlMeta instanceof LeatherArmorMeta) {
-            LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) controlMeta;
             if (section.contains("meta.color") && section.isList("meta.color")) {
+                LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) controlMeta;
                 List<String> listColor = section.getStringList("meta.color");
                 if (!listColor.isEmpty() && listColor.size() == 3) {
                     leatherArmorMeta.setColor(org.bukkit.Color.fromRGB(
