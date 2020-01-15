@@ -19,8 +19,7 @@ example_rank_1:
       queue: 1
       type: MONEY
       message: "&cYou don't have enough money [&e%value%&c]"
-      data:
-        value: 500.00
+      value: 500.00
     cond_2:
       queue: 2
       template: custom_cond
@@ -28,31 +27,27 @@ example_rank_1:
       queue: 3
       type: HAS_ITEM
       message: "&cYou don't have 3 Apple."
-      data:
-        item:
-          material: APPLE
-          amount: 3
+      item:
+        material: APPLE
+        amount: 3
   executors:
     exec_1:
       queue: 1
       type: MESSAGE
-      data:
-        value: "&atest message &e%player_name% &aand &6%rank%"
+      value: "&atest message &e%player_name% &aand &6%rank%"
     exec_2:
       queue: 2
       template: custom_exec
     exec_3:
       queue: 3
       type: REMOVE_ITEM
-      data:
-        item:
-          material: APPLE
-          amount: 3
+      item:
+        material: APPLE
+        amount: 3
     exec_4:
       queue: 4
       type: GIVE_ITEM
-      data:
-        item:
-          material: DIAMOND_BLOCK
-          amount: 3
-          name: "&b%rank_group% Gift 1"
+      item:
+        material: DIAMOND_BLOCK
+        amount: 3
+        name: "&b%rank_group% Gift 1"

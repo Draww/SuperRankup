@@ -24,10 +24,8 @@ conditions:
   custom_cond:
     type: MONEY
     message: "&cYou don't have enough money [&e%value%&c]"
-    data:
-      value: 1500.00
+    value: 1500.00
 executors:
   custom_exec:
     type: MESSAGE
-    data:
-      value: "&atest message 2 &e%player% &aand &6%rank%"
+    value: "&atest message 2 &e%player% &aand &6%rank%"
