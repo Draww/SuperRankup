@@ -59,11 +59,11 @@ public class Config {
         if (!this.configFile.exists()) {
             //noinspection ResultOfMethodCallIgnored
             this.configFile.getParentFile().mkdirs();
-            this.copy(plugin.getResource(this.filename), this.configFile);
+            copy(plugin.getResource(this.filename), this.configFile);
         }
     }
 
-    private void copy(InputStream in, File file) {
+    public static void copy(InputStream in, File file) {
         try {
             OutputStream out = new FileOutputStream(file);
             byte[] buf = new byte[63];

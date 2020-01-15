@@ -10,6 +10,8 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 @SuppressWarnings("WeakerAccess")
 public class Main extends JavaPlugin {
 
@@ -21,6 +23,8 @@ public class Main extends JavaPlugin {
     private Config ranksConfig;
     private Config templateConfig;
     private Config languageConfig;
+
+    private File jsFolder;
 
     private IGroupManager groupManager;
     private RankManager rankManager;
@@ -35,6 +39,10 @@ public class Main extends JavaPlugin {
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         languageConfig = new Config(this, "language.yml", true);
+        jsFolder = new File(getDataFolder(), "js");
+        if (!jsFolder.exists()) //noinspection ResultOfMethodCallIgnored
+            jsFolder.mkdirs();
+        Config.copy(getResource("example.js"), new File(jsFolder, "example.js"));
         if (!setupGroupManager()) {
             getLogger().severe("group manager was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
@@ -109,6 +117,10 @@ public class Main extends JavaPlugin {
 
     public Config getTemplateConfig() {
         return templateConfig;
+    }
+
+    public File getJsFolder() {
+        return jsFolder;
     }
 
     public Config getLanguageConfig() {
