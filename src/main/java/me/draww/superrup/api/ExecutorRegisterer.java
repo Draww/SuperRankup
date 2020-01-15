@@ -40,6 +40,7 @@ public class ExecutorRegisterer {
         register("remove_item", RemoveItemExecutor.class);
         register("sound", SoundExecutor.class);
         register("teleport", TeleportExecutor.class);
+        register("js", JavascriptExecutor.class);
     }
 
     public void register(String id, Class clazz) {
