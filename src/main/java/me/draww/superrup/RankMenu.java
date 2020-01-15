@@ -4,8 +4,8 @@ import me.blackness.black.Element;
 import me.blackness.black.element.BasicElement;
 import me.blackness.black.pane.BasicPane;
 import me.blackness.black.target.BasicTarget;
-import me.draww.superrup.condition.ConditionProvider;
-import me.draww.superrup.executor.ExecutorProvider;
+import me.draww.superrup.api.ConditionRegisterer;
+import me.draww.superrup.api.ExecutorRegisterer;
 import me.draww.superrup.inventory.builder.NormalMenu;
 import me.draww.superrup.inventory.util.ElementUtil;
 import me.draww.superrup.utils.ItemStackBuilder;
@@ -96,10 +96,10 @@ public class RankMenu extends NormalMenu {
                             addLast(new BasicElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconJump()),
                                     new BasicTarget(e -> {
                                         e.cancel();
-                                        boolean controlConditions = ConditionProvider.testAllConditions(player, rank);
+                                        boolean controlConditions = ConditionRegisterer.testAllConditions(player, rank);
                                         if (controlConditions) {
                                             Main.INSTANCE.getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
-                                            ExecutorProvider.runAllExecutors(player, rank);
+                                            ExecutorRegisterer.runAllExecutors(player, rank);
                                         }
                                         e.closeView();
                                     })));

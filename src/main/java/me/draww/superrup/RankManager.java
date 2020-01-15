@@ -1,7 +1,5 @@
 package me.draww.superrup;
 
-import me.draww.superrup.condition.ConditionProvider;
-import me.draww.superrup.executor.ExecutorProvider;
 import me.draww.superrup.utils.ItemUtil;
 
 import java.util.*;
@@ -74,8 +72,8 @@ public class RankManager {
             newRank.setIconJump(ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.jump"), newRank));
             newRank.setIconEqual(ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.equal"), newRank));
             newRank.setIconHigh(ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.high"), newRank));
-            newRank.setConditions(ConditionProvider.deserializeConditions(ranksConfig.getConfig().getConfigurationSection(rank + ".conditions"), newRank));
-            newRank.setExecutors(ExecutorProvider.deserializeExecutors(ranksConfig.getConfig().getConfigurationSection(rank + ".executors"), newRank));
+            newRank.setConditions(Main.INSTANCE.getApi().getConditionRegisterer().deserializeConditions(ranksConfig.getConfig().getConfigurationSection(rank + ".conditions"), newRank));
+            newRank.setExecutors(Main.INSTANCE.getApi().getExecutorRegisterer().deserializeExecutors(ranksConfig.getConfig().getConfigurationSection(rank + ".executors"), newRank));
             rankMap.put(rank, newRank);
         }
     }
