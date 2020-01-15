@@ -33,18 +33,18 @@ public class Main extends JavaPlugin {
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         languageConfig = new Config(this, "language.yml", true);
-        if (!initGroupManager()) {
+        if (!setupGroupManager()) {
             getLogger().severe("group manager was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        if (!initVaultManager()) {
+        if (!setupVaultManager()) {
             getLogger().severe("Vault was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
         rankManager = new RankManager(this);
-        rankManager.init();
+        rankManager.setup();
         getCommand("rank").setExecutor(new RankCommand());
         new Blackness().prepareFor(this);
         metrics = new Metrics(this);
@@ -54,7 +54,7 @@ public class Main extends JavaPlugin {
         return this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
-    private boolean initVaultManager() {
+    private boolean setupVaultManager() {
         if (this.getServer().getPluginManager().getPlugin("Vault") instanceof Vault) {
             RegisteredServiceProvider<Economy> serviceProvider = this.getServer().getServicesManager().getRegistration(Economy.class);
             if (serviceProvider != null) {
@@ -65,12 +65,12 @@ public class Main extends JavaPlugin {
         return false;
     }
 
-    private boolean initGroupManager() {
+    private boolean setupGroupManager() {
         String permissionProvider = config.getConfig().getString("permission_provider");
         if (permissionProvider.equals("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
             groupManager = new LuckPermsGroupManager();
             return true;
-        } else if  (permissionProvider.equals("PermissionsEx") && this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
+        } else if (permissionProvider.equals("PermissionsEx") && this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
             groupManager = new PermissionsExGroupManager();
             return true;
         }

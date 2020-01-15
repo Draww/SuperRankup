@@ -58,10 +58,10 @@ public class RankManager {
 
     public void reload() {
         rankMap = new HashMap<>();
-        init();
+        setup();
     }
 
-    public void init() {
+    public void setup() {
         for (String rank : ranksConfig.getConfig().getKeys(false)) {
             if ((!ranksConfig.getConfig().contains(rank + ".group") && !ranksConfig.getConfig().isString(rank + ".group"))
                     || (!ranksConfig.getConfig().contains(rank + ".queue") && !ranksConfig.getConfig().isInt(rank + ".queue"))
