@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class RankMenu extends NormalMenu {
 
     private final FileConfiguration config;

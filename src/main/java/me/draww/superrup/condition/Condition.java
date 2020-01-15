@@ -4,6 +4,7 @@ import me.draww.superrup.Rank;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+@SuppressWarnings("WeakerAccess")
 public class Condition {
 
     private final String id;

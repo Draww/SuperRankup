@@ -10,6 +10,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@SuppressWarnings("WeakerAccess")
 public class Main extends JavaPlugin {
 
     private static Main instance;

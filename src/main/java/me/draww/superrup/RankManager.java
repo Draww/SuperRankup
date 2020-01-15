@@ -7,6 +7,7 @@ import me.draww.superrup.utils.ItemUtil;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("WeakerAccess")
 public class RankManager {
 
     private final Main plugin;

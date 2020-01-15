@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 
+@SuppressWarnings("WeakerAccess")
 public class Config {
 
     private File configFile;
@@ -56,6 +57,7 @@ public class Config {
 
     private void firstRun(JavaPlugin plugin) {
         if (!this.configFile.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             this.configFile.getParentFile().mkdirs();
             this.copy(plugin.getResource(this.filename), this.configFile);
         }
@@ -72,7 +74,7 @@ public class Config {
             out.close();
             in.close();
         }
-        catch (Exception ex) {}
+        catch (Exception ignored) {}
     }
 
     public ConfigurationSection getConfigurationSection(String path) {
