@@ -4,7 +4,6 @@ import me.blackness.black.Blackness;
 import me.draww.superrup.group.IGroupManager;
 import me.draww.superrup.group.LuckPermsGroupManager;
 import me.draww.superrup.group.PermissionsExGroupManager;
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -55,7 +54,7 @@ public class Main extends JavaPlugin {
     }
 
     private boolean setupVaultManager() {
-        if (this.getServer().getPluginManager().getPlugin("Vault") instanceof Vault) {
+        if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
             RegisteredServiceProvider<Economy> serviceProvider = this.getServer().getServicesManager().getRegistration(Economy.class);
             if (serviceProvider != null) {
                 this.vaultEconomy = serviceProvider.getProvider();
