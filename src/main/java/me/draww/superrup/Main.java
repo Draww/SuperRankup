@@ -14,6 +14,8 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
 
+    private SuperRankupAPI api;
+
     private Config config;
     private Config ranksConfig;
     private Config templateConfig;
@@ -42,6 +44,7 @@ public class Main extends JavaPlugin {
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        api = new SuperRankupAPI();
         rankManager = new RankManager(this);
         rankManager.setup();
         getCommand("rank").setExecutor(new RankCommand());
@@ -86,11 +89,13 @@ public class Main extends JavaPlugin {
         ranksConfig.load();
         templateConfig.load();
         languageConfig.load();
+        api.getConditionRegisterer().reload();
+        api.getExecutorRegisterer().reload();
         rankManager.reload();
     }
 
-    public static Main getInstance() {
-        return instance;
+    public SuperRankupAPI getApi() {
+        return api;
     }
 
     public Config getMainConfig() {
