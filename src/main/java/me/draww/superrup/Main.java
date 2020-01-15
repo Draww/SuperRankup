@@ -1,6 +1,5 @@
 package me.draww.superrup;
 
-import co.aikar.commands.BukkitCommandManager;
 import me.blackness.black.Blackness;
 import me.draww.superrup.group.IGroupManager;
 import me.draww.superrup.group.LuckPermsGroupManager;
@@ -24,8 +23,6 @@ public class Main extends JavaPlugin {
     private RankManager rankManager;
     private Economy vaultEconomy;
 
-    private BukkitCommandManager commandManager;
-
     private Metrics metrics;
 
     @Override
@@ -47,8 +44,7 @@ public class Main extends JavaPlugin {
         }
         rankManager = new RankManager(this);
         rankManager.init();
-        commandManager = new BukkitCommandManager(this);
-        commandManager.registerCommand(new RankCommand());
+        getCommand("rank").setExecutor(new RankCommand());
         new Blackness().prepareFor(this);
         metrics = new Metrics(this);
     }
@@ -123,10 +119,6 @@ public class Main extends JavaPlugin {
 
     public Economy getVaultEconomy() {
         return vaultEconomy;
-    }
-
-    public BukkitCommandManager getCommandManager() {
-        return commandManager;
     }
 
     public Metrics getMetrics() {
