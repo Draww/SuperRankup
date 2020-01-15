@@ -118,13 +118,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>text</artifactId>
-            <version>1.12-1.6.5</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>me.lucko.luckperms</groupId>
             <artifactId>luckperms-api</artifactId>
             <version>4.3</version>
