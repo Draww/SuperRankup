@@ -1,6 +1,7 @@
 package me.draww.superrup;
 
 import me.blackness.black.Blackness;
+import me.draww.superrup.api.SuperRankupAPI;
 import me.draww.superrup.group.IGroupManager;
 import me.draww.superrup.group.LuckPermsGroupManager;
 import me.draww.superrup.group.PermissionsExGroupManager;
@@ -12,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 @SuppressWarnings("WeakerAccess")
 public class Main extends JavaPlugin {
 
-    private static Main instance;
+    public static Main INSTANCE;
 
     private SuperRankupAPI api;
 
@@ -29,7 +30,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
+        INSTANCE = this;
         config = new Config(this, "config.yml", true);
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);

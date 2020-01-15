@@ -14,7 +14,7 @@ public class RankCommand implements CommandExecutor {
             new RankMenu((Player) sender);
         } else if (args.length > 0) {
             if (args[0].equals("reload") && sender.hasPermission("superrup.reload")) {
-                Main.getInstance().reload();
+                Main.INSTANCE.reload();
                 sender.sendMessage(Text.colorize("&aSuperRankup has been successfully reloaded!"));
             }
         }

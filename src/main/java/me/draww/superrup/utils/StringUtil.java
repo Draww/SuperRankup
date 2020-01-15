@@ -14,7 +14,7 @@ public class StringUtil {
         if (!paramString.contains("%")) {
             return paramString;
         }
-        if (Main.getInstance().controlPlaceholderAPI()) {
+        if (Main.INSTANCE.controlPlaceholderAPI()) {
             paramString = PlaceholderAPI.setPlaceholders(paramPlayer, paramString);
         }
         return paramString;

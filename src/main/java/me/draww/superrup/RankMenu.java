@@ -27,14 +27,14 @@ public class RankMenu extends NormalMenu {
     private Integer currentPage;
 
     public RankMenu(Player player) {
-        super("Rank", Text.colorize(Main.getInstance().getMainConfig().getConfig().getString("menu.title")),
-                Main.getInstance().getMainConfig().getConfig().getInt("menu.size") * 9);
-        this.config = Main.getInstance().getMainConfig().getConfig();
+        super("Rank", Text.colorize(Main.INSTANCE.getMainConfig().getConfig().getString("menu.title")),
+                Main.INSTANCE.getMainConfig().getConfig().getInt("menu.size") * 9);
+        this.config = Main.INSTANCE.getMainConfig().getConfig();
         this.player = player;
         this.currentPage = 1;
-        String group = Main.getInstance().getGroupManager().getPlayerPrimaryGroup(player);
-        if (Main.getInstance().getMainConfig().getConfig().getStringList("disabled_groups").contains(group)) {
-            player.sendMessage(Text.colorize(Main.getInstance().getLanguageConfig().getConfig().getString("disable_group")));
+        String group = Main.INSTANCE.getGroupManager().getPlayerPrimaryGroup(player);
+        if (Main.INSTANCE.getMainConfig().getConfig().getStringList("disabled_groups").contains(group)) {
+            player.sendMessage(Text.colorize(Main.INSTANCE.getLanguageConfig().getConfig().getString("disable_group")));
             return;
         }
         add("ranks");
@@ -77,7 +77,7 @@ public class RankMenu extends NormalMenu {
                 fillElement("updowninfo", 0, ElementUtil.emptyElement(item));
             }
         }
-        List<Rank> ranks = Main.getInstance().getRankManager().getSortedRanks();
+        List<Rank> ranks = Main.INSTANCE.getRankManager().getSortedRanks();
         if (ranks != null && !ranks.isEmpty()) {
             Integer indexPlayer = null;
             for (Rank rank : ranks.toArray(new Rank[0])) {
@@ -98,7 +98,7 @@ public class RankMenu extends NormalMenu {
                                         e.cancel();
                                         boolean controlConditions = ConditionProvider.testAllConditions(player, rank);
                                         if (controlConditions) {
-                                            Main.getInstance().getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
+                                            Main.INSTANCE.getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
                                             ExecutorProvider.runAllExecutors(player, rank);
                                         }
                                         e.closeView();

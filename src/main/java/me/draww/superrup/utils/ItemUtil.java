@@ -73,7 +73,7 @@ public class ItemUtil {
 
     public static ItemStack deserializeItemStack(ConfigurationSection section, Rank rank) {
         if (section.contains("template") && section.isString("template")) {
-            ConfigurationSection templateSection = Main.getInstance().getTemplateConfig().getConfigurationSection("icons." + section.getString("template"));
+            ConfigurationSection templateSection = Main.INSTANCE.getTemplateConfig().getConfigurationSection("icons." + section.getString("template"));
             return deserializeItemStack(templateSection, rank);
         }
         if (!section.contains("material")) return null;
