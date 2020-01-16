@@ -4,6 +4,7 @@ import me.draww.superrup.Main;
 import me.draww.superrup.Rank;
 import me.draww.superrup.api.Condition;
 import me.draww.superrup.api.annotations.ActionField;
+import me.draww.superrup.api.exception.ActionException;
 import me.draww.superrup.conditions.ExpCondition;
 import me.draww.superrup.conditions.ItemCondition;
 import me.draww.superrup.conditions.MoneyCondition;
@@ -58,9 +59,9 @@ public class ConditionRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(condition, condKey, templateSection, rank);
                     if (!successfullyLoaded) continue;
-                    if (!condition.onSetup()) continue;
+                    condition.onSetup();
                     conditionMap.put(condKey, condition);
-                } catch (IllegalAccessException | InstantiationException e) {
+                } catch (IllegalAccessException | InstantiationException | ActionException e) {
                     e.printStackTrace();
                     continue;
                 }
@@ -75,9 +76,9 @@ public class ConditionRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(condition, condKey, conditionSection, rank);
                     if (!successfullyLoaded) continue;
-                    if (!condition.onSetup()) continue;
+                    condition.onSetup();
                     conditionMap.put(condKey, condition);
-                } catch (IllegalAccessException | InstantiationException e) {
+                } catch (IllegalAccessException | InstantiationException | ActionException e) {
                     e.printStackTrace();
                     continue;
                 }

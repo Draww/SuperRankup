@@ -5,6 +5,7 @@ import me.draww.superrup.Main;
 import me.draww.superrup.Rank;
 import me.draww.superrup.api.Executor;
 import me.draww.superrup.api.annotations.ActionField;
+import me.draww.superrup.api.exception.ActionException;
 import me.draww.superrup.utils.FileUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,10 +32,10 @@ public class JavascriptExecutor implements Executor<Player> {
     private String fileContent;
 
     @Override
-    public boolean onSetup() {
-        File jsFile = new File(Main.INSTANCE.getJsFolder(), filePath);
+    public void onSetup() throws ActionException {
+        File jsFile = new File(Main.INSTANCE.getJsFolder(), filePath + ".js");
+        if (!jsFile.exists()) throw new ActionException(this, filePath + ".js file is not exist");
         fileContent = FileUtil.read(jsFile);
-        return true;
     }
 
     @Override

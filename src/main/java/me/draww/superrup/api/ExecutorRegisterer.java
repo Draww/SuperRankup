@@ -4,6 +4,7 @@ import me.draww.superrup.Main;
 import me.draww.superrup.Rank;
 import me.draww.superrup.api.Executor;
 import me.draww.superrup.api.annotations.ActionField;
+import me.draww.superrup.api.exception.ActionException;
 import me.draww.superrup.executors.*;
 import me.draww.superrup.utils.ItemUtil;
 import org.bukkit.configuration.ConfigurationSection;
@@ -70,9 +71,9 @@ public class ExecutorRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(executor, executorKey, templateSection, rank);
                     if (!successfullyLoaded) continue;
-                    if (!executor.onSetup()) continue;
+                    executor.onSetup();
                     executorMap.put(executorKey, executor);
-                } catch (IllegalAccessException | InstantiationException e) {
+                } catch (IllegalAccessException | InstantiationException | ActionException e) {
                     e.printStackTrace();
                     continue;
                 }
@@ -87,9 +88,9 @@ public class ExecutorRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(executor, executorKey, executorSection, rank);
                     if (!successfullyLoaded) continue;
-                    if (!executor.onSetup()) continue;
+                    executor.onSetup();
                     executorMap.put(executorKey, executor);
-                } catch (IllegalAccessException | InstantiationException e) {
+                } catch (IllegalAccessException | InstantiationException | ActionException e) {
                     e.printStackTrace();
                     continue;
                 }

@@ -1,11 +1,12 @@
 package me.draww.superrup.api;
 
 import me.draww.superrup.Rank;
+import me.draww.superrup.api.exception.ActionException;
 
 public interface Action {
 
-    default boolean onSetup() {
-        return true;
+    default void onSetup() throws ActionException {
+
     }
 
     String id();
