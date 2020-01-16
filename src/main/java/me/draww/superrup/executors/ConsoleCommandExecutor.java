@@ -23,10 +23,11 @@ public class ConsoleCommandExecutor implements Executor<Player> {
     private String value;
 
     @Override
-    public void onCompleted() {
+    public boolean onSetup() {
         value = value
                 .replace("%rank%", rank.getId())
                 .replace("%rank_group%", rank.getGroup());
+        return true;
     }
 
     @Override

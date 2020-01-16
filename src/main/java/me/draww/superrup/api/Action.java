@@ -4,8 +4,8 @@ import me.draww.superrup.Rank;
 
 public interface Action {
 
-    default void onCompleted() {
-
+    default boolean onSetup() {
+        return true;
     }
 
     String id();

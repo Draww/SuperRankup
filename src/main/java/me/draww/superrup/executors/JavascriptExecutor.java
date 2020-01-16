@@ -31,9 +31,10 @@ public class JavascriptExecutor implements Executor<Player> {
     private String fileContent;
 
     @Override
-    public void onCompleted() {
+    public boolean onSetup() {
         File jsFile = new File(Main.INSTANCE.getJsFolder(), filePath);
         fileContent = FileUtil.read(jsFile);
+        return true;
     }
 
     @Override
@@ -50,6 +51,7 @@ public class JavascriptExecutor implements Executor<Player> {
         SimpleBindings bindings = new SimpleBindings();
         bindings.put("player", player);
         bindings.put("bukkitServer", Bukkit.getServer());
+        bindings.put("economy", Main.INSTANCE.getVaultEconomy());
         bindings.put("executor", this);
 
         try {

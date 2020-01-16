@@ -58,7 +58,7 @@ public class ConditionRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(condition, condKey, templateSection, rank);
                     if (!successfullyLoaded) continue;
-                    condition.onCompleted();
+                    if (!condition.onSetup()) continue;
                     conditionMap.put(condKey, condition);
                 } catch (IllegalAccessException | InstantiationException e) {
                     e.printStackTrace();
@@ -75,7 +75,7 @@ public class ConditionRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(condition, condKey, conditionSection, rank);
                     if (!successfullyLoaded) continue;
-                    condition.onCompleted();
+                    if (!condition.onSetup()) continue;
                     conditionMap.put(condKey, condition);
                 } catch (IllegalAccessException | InstantiationException e) {
                     e.printStackTrace();

@@ -70,7 +70,7 @@ public class ExecutorRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(executor, executorKey, templateSection, rank);
                     if (!successfullyLoaded) continue;
-                    executor.onCompleted();
+                    if (!executor.onSetup()) continue;
                     executorMap.put(executorKey, executor);
                 } catch (IllegalAccessException | InstantiationException e) {
                     e.printStackTrace();
@@ -87,7 +87,7 @@ public class ExecutorRegisterer {
                     }
                     boolean successfullyLoaded = setupFields(executor, executorKey, executorSection, rank);
                     if (!successfullyLoaded) continue;
-                    executor.onCompleted();
+                    if (!executor.onSetup()) continue;
                     executorMap.put(executorKey, executor);
                 } catch (IllegalAccessException | InstantiationException e) {
                     e.printStackTrace();

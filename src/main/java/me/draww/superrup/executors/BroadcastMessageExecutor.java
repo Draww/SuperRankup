@@ -24,10 +24,11 @@ public class BroadcastMessageExecutor implements Executor<Player> {
     private String message;
 
     @Override
-    public void onCompleted() {
+    public boolean onSetup() {
         message = message
                 .replace("%rank%", rank.getId())
                 .replace("%rank_group%", rank.getGroup());
+        return true;
     }
 
     @Override
