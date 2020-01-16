@@ -64,6 +64,10 @@ public class ExecutorRegisterer {
                 if (!templateSection.contains("type") && !templateSection.isString("type")) continue;
                 try {
                     Executor executor = createNewExecutor(templateSection.getString("type"));
+                    if (executor == null) {
+                        //TODO: error log
+                        continue;
+                    }
                     boolean successfullyLoaded = setupFields(executor, executorKey, templateSection, rank);
                     if (!successfullyLoaded) continue;
                     executor.onCompleted();
@@ -77,6 +81,10 @@ public class ExecutorRegisterer {
                 if (!executorSection.contains("type") && !executorSection.isString("type")) continue;
                 try {
                     Executor executor = createNewExecutor(executorSection.getString("type"));
+                    if (executor == null) {
+                        //TODO: error log
+                        continue;
+                    }
                     boolean successfullyLoaded = setupFields(executor, executorKey, executorSection, rank);
                     if (!successfullyLoaded) continue;
                     executor.onCompleted();

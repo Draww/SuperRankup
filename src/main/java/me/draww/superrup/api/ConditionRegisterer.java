@@ -52,6 +52,10 @@ public class ConditionRegisterer {
                 if (!templateSection.contains("type") && !templateSection.isString("type")) continue;
                 try {
                     Condition condition = createNewCondition(templateSection.getString("type"));
+                    if (condition == null) {
+                        //TODO: error log
+                        continue;
+                    }
                     boolean successfullyLoaded = setupFields(condition, condKey, templateSection, rank);
                     if (!successfullyLoaded) continue;
                     condition.onCompleted();
@@ -65,6 +69,10 @@ public class ConditionRegisterer {
                 if (!conditionSection.contains("type") && !conditionSection.isString("type")) continue;
                 try {
                     Condition condition = createNewCondition(conditionSection.getString("type"));
+                    if (condition == null) {
+                        //TODO: error log
+                        continue;
+                    }
                     boolean successfullyLoaded = setupFields(condition, condKey, conditionSection, rank);
                     if (!successfullyLoaded) continue;
                     condition.onCompleted();
