@@ -66,14 +66,17 @@ public class ExecutorRegisterer {
                 try {
                     Executor executor = createNewExecutor(templateSection.getString("type"));
                     if (executor == null) {
-                        //TODO: error log
+                        Main.INSTANCE.getLogger().severe("The action type is wrong! (" + executorKey + ")");
                         continue;
                     }
-                    boolean successfullyLoaded = setupFields(executor, executorKey, templateSection, rank);
-                    if (!successfullyLoaded) continue;
+                    setupFields(executor, executorKey, templateSection, rank);
                     executor.onSetup();
                     executorMap.put(executorKey, executor);
                 } catch (IllegalAccessException | InstantiationException | ActionException e) {
+                    if (e instanceof ActionException) {
+                        Main.INSTANCE.getLogger().severe(e.getMessage());
+                        continue;
+                    }
                     e.printStackTrace();
                     continue;
                 }
@@ -83,14 +86,17 @@ public class ExecutorRegisterer {
                 try {
                     Executor executor = createNewExecutor(executorSection.getString("type"));
                     if (executor == null) {
-                        //TODO: error log
+                        Main.INSTANCE.getLogger().severe("The action type is wrong! (" + executorKey + ")");
                         continue;
                     }
-                    boolean successfullyLoaded = setupFields(executor, executorKey, executorSection, rank);
-                    if (!successfullyLoaded) continue;
+                    setupFields(executor, executorKey, executorSection, rank);
                     executor.onSetup();
                     executorMap.put(executorKey, executor);
                 } catch (IllegalAccessException | InstantiationException | ActionException e) {
+                    if (e instanceof ActionException) {
+                        Main.INSTANCE.getLogger().severe(e.getMessage());
+                        continue;
+                    }
                     e.printStackTrace();
                     continue;
                 }
@@ -108,7 +114,7 @@ public class ExecutorRegisterer {
         return null;
     }
 
-    private boolean setupFields(Executor executor, String id, ConfigurationSection section, Rank rank) {
+    private void setupFields(Executor executor, String id, ConfigurationSection section, Rank rank) throws ActionException {
         List<Field> annotatedFields = Arrays.stream(executor.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(ActionField.class)).collect(Collectors.toList());
         for (Field field : annotatedFields) {
             ActionField fieldAnnotation = field.getAnnotation(ActionField.class);
@@ -136,7 +142,7 @@ public class ExecutorRegisterer {
                     field.setAccessible(false);
                 }
             } else if (fieldType.equals("queue")) {
-                if (!section.contains("queue") || !section.isInt("queue")) return false;
+                if (!section.contains("queue") || !section.isInt("queue")) throw new ActionException(executor, "The queue number is undetermined! (" + id + ")");
                 field.setAccessible(true);
                 try {
                     field.set(executor, section.getInt("queue"));
@@ -150,10 +156,7 @@ public class ExecutorRegisterer {
                 if (field.getType().isAssignableFrom(ItemStack.class)) {
                     if (!section.contains(fieldType) || !section.isConfigurationSection(fieldType)) {
                         if (!fieldRequired) continue;
-                        else {
-                            //TODO: error print
-                            return false;
-                        }
+                        else throw new ActionException(executor, fieldType + " item information is missing! (" + id + ")");
                     }
                     ItemStack item = ItemUtil.deserializeItemStack(section.getConfigurationSection(fieldType), rank);
                     field.setAccessible(true);
@@ -168,10 +171,7 @@ public class ExecutorRegisterer {
                 } else {
                     if (!section.contains(fieldType)) {
                         if (!fieldRequired) continue;
-                        else {
-                            //TODO: error print
-                            return false;
-                        }
+                        else throw new ActionException(executor, fieldType + " custom data information is missing! (" + id + ")");
                     }
                     Object customData = section.get(fieldType);
                     field.setAccessible(true);
@@ -186,7 +186,6 @@ public class ExecutorRegisterer {
                 }
             }
         }
-        return true;
     }
 
     public static void runAllExecutors(Player player, Rank rank) {

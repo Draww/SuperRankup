@@ -54,14 +54,17 @@ public class ConditionRegisterer {
                 try {
                     Condition condition = createNewCondition(templateSection.getString("type"));
                     if (condition == null) {
-                        //TODO: error log
+                        Main.INSTANCE.getLogger().severe("The action type is wrong! (" + condKey + ")");
                         continue;
                     }
-                    boolean successfullyLoaded = setupFields(condition, condKey, templateSection, rank);
-                    if (!successfullyLoaded) continue;
+                    setupFields(condition, condKey, templateSection, rank);
                     condition.onSetup();
                     conditionMap.put(condKey, condition);
                 } catch (IllegalAccessException | InstantiationException | ActionException e) {
+                    if (e instanceof ActionException) {
+                        Main.INSTANCE.getLogger().severe(e.getMessage());
+                        continue;
+                    }
                     e.printStackTrace();
                     continue;
                 }
@@ -71,14 +74,17 @@ public class ConditionRegisterer {
                 try {
                     Condition condition = createNewCondition(conditionSection.getString("type"));
                     if (condition == null) {
-                        //TODO: error log
+                        Main.INSTANCE.getLogger().severe("The action type is wrong! (" + condKey + ")");
                         continue;
                     }
-                    boolean successfullyLoaded = setupFields(condition, condKey, conditionSection, rank);
-                    if (!successfullyLoaded) continue;
+                    setupFields(condition, condKey, conditionSection, rank);
                     condition.onSetup();
                     conditionMap.put(condKey, condition);
                 } catch (IllegalAccessException | InstantiationException | ActionException e) {
+                    if (e instanceof ActionException) {
+                        Main.INSTANCE.getLogger().severe(e.getMessage());
+                        continue;
+                    }
                     e.printStackTrace();
                     continue;
                 }
@@ -96,7 +102,7 @@ public class ConditionRegisterer {
         return null;
     }
 
-    private boolean setupFields(Condition condition, String id, ConfigurationSection section, Rank rank) {
+    private void setupFields(Condition condition, String id, ConfigurationSection section, Rank rank) throws ActionException {
         List<Field> annotatedFields = Arrays.stream(condition.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(ActionField.class)).collect(Collectors.toList());
         for (Field field : annotatedFields) {
             ActionField fieldAnnotation = field.getAnnotation(ActionField.class);
@@ -124,7 +130,7 @@ public class ConditionRegisterer {
                     field.setAccessible(false);
                 }
             } else if (fieldType.equals("queue")) {
-                if (!section.contains("queue") || !section.isInt("queue")) return false;
+                if (!section.contains("queue") || !section.isInt("queue")) throw new ActionException(condition, "The queue number is undetermined! (" + id + ")");
                 field.setAccessible(true);
                 try {
                     field.set(condition, section.getInt("queue"));
@@ -138,10 +144,7 @@ public class ConditionRegisterer {
                 if (field.getType().isAssignableFrom(ItemStack.class)) {
                     if (!section.contains(fieldType) || !section.isConfigurationSection(fieldType)) {
                         if (!fieldRequired) continue;
-                        else {
-                            //TODO: error print
-                            return false;
-                        }
+                        else throw new ActionException(condition, fieldType + " item information is missing! (" + id + ")");
                     }
                     ItemStack item = ItemUtil.deserializeItemStack(section.getConfigurationSection(fieldType), rank);
                     field.setAccessible(true);
@@ -156,10 +159,7 @@ public class ConditionRegisterer {
                 } else {
                     if (!section.contains(fieldType)) {
                         if (!fieldRequired) continue;
-                        else {
-                            //TODO: error print
-                            return false;
-                        }
+                        else throw new ActionException(condition, fieldType + " custom data information is missing! (" + id + ")");
                     }
                     Object customData = section.get(fieldType);
                     field.setAccessible(true);
@@ -174,7 +174,6 @@ public class ConditionRegisterer {
                 }
             }
         }
-        return true;
     }
 
     public static boolean testAllConditions(Player player, Rank rank) {
