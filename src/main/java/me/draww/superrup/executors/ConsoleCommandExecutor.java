@@ -20,7 +20,7 @@ public class ConsoleCommandExecutor implements Executor<Player> {
     @ActionField(type = "rank")
     private Rank rank;
 
-    @ActionField(type = "value", required = true, custom = true)
+    @ActionField(type = "value", required = true, custom = true, replaceVariables = true)
     private String value;
 
     @Override

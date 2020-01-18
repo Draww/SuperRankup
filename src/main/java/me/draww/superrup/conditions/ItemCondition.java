@@ -21,7 +21,7 @@ public class ItemCondition implements Condition<Player> {
     @ActionField(type = "rank")
     private Rank rank;
 
-    @ActionField(type = "message", required = true, custom = true)
+    @ActionField(type = "message", required = true, custom = true, replaceVariables = true)
     private String message;
 
     @ActionField(type = "item", required = true, custom = true)

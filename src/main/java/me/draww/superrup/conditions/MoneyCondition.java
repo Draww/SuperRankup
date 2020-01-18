@@ -19,7 +19,7 @@ public class MoneyCondition implements Condition<Player> {
     @ActionField(type = "rank")
     private Rank rank;
 
-    @ActionField(type = "message", required = true, custom = true)
+    @ActionField(type = "message", required = true, custom = true, replaceVariables = true)
     private String message;
 
     @ActionField(type = "value", required = true, custom = true)

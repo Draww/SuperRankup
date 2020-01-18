@@ -23,7 +23,7 @@ public class BroadcastActionbarMessageExecutor implements Executor<Player> {
     @ActionField(type = "rank")
     private Rank rank;
 
-    @ActionField(type = "message", required = true, custom = true)
+    @ActionField(type = "message", required = true, custom = true, replaceVariables = true)
     private String message;
 
     @Override

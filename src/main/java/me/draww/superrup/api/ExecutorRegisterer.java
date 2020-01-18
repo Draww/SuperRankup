@@ -116,11 +116,13 @@ public class ExecutorRegisterer {
 
     private void setupFields(Executor executor, String id, ConfigurationSection section, Rank rank) throws ActionException {
         List<Field> annotatedFields = Arrays.stream(executor.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(ActionField.class)).collect(Collectors.toList());
+        Map<String, Object> replaceData = section.getValues(true);
         for (Field field : annotatedFields) {
             ActionField fieldAnnotation = field.getAnnotation(ActionField.class);
             String fieldType = fieldAnnotation.type();
             boolean fieldRequired = fieldAnnotation.required();
             boolean fieldCustom = fieldAnnotation.custom();
+            boolean replaceVariables = fieldAnnotation.replaceVariables();
             if (fieldType.equals("id")) {
                 field.setAccessible(true);
                 try {
@@ -142,7 +144,8 @@ public class ExecutorRegisterer {
                     field.setAccessible(false);
                 }
             } else if (fieldType.equals("queue")) {
-                if (!section.contains("queue") || !section.isInt("queue")) throw new ActionException(executor, "The queue number is undetermined! (" + id + ")");
+                if (!section.contains("queue") || !section.isInt("queue"))
+                    throw new ActionException(executor, "The queue number is undetermined! (" + id + ")");
                 field.setAccessible(true);
                 try {
                     field.set(executor, section.getInt("queue"));
@@ -156,7 +159,8 @@ public class ExecutorRegisterer {
                 if (field.getType().isAssignableFrom(ItemStack.class)) {
                     if (!section.contains(fieldType) || !section.isConfigurationSection(fieldType)) {
                         if (!fieldRequired) continue;
-                        else throw new ActionException(executor, fieldType + " item information is missing! (" + id + ")");
+                        else
+                            throw new ActionException(executor, fieldType + " item information is missing! (" + id + ")");
                     }
                     ItemStack item = ItemUtil.deserializeItemStack(section.getConfigurationSection(fieldType), rank);
                     field.setAccessible(true);
@@ -171,9 +175,17 @@ public class ExecutorRegisterer {
                 } else {
                     if (!section.contains(fieldType)) {
                         if (!fieldRequired) continue;
-                        else throw new ActionException(executor, fieldType + " custom data information is missing! (" + id + ")");
+                        else
+                            throw new ActionException(executor, fieldType + " custom data information is missing! (" + id + ")");
                     }
                     Object customData = section.get(fieldType);
+                    if (replaceVariables && customData instanceof String) {
+                        if (replaceData != null) {
+                            for (Map.Entry<String, Object> entry : replaceData.entrySet()) {
+                                customData = ((String) customData).replace("%" + entry.getKey().toLowerCase() + "%", String.valueOf(entry.getValue()));
+                            }
+                        }
+                    }
                     field.setAccessible(true);
                     try {
                         field.set(executor, customData);

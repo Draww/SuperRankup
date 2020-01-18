@@ -15,4 +15,6 @@ public @interface ActionField {
 
     boolean custom() default false;
 
+    boolean replaceVariables() default false;
+
 }

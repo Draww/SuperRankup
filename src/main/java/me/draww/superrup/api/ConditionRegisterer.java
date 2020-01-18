@@ -104,11 +104,13 @@ public class ConditionRegisterer {
 
     private void setupFields(Condition condition, String id, ConfigurationSection section, Rank rank) throws ActionException {
         List<Field> annotatedFields = Arrays.stream(condition.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(ActionField.class)).collect(Collectors.toList());
+        Map<String, Object> replaceData = section.getValues(true);
         for (Field field : annotatedFields) {
             ActionField fieldAnnotation = field.getAnnotation(ActionField.class);
             String fieldType = fieldAnnotation.type();
             boolean fieldRequired = fieldAnnotation.required();
             boolean fieldCustom = fieldAnnotation.custom();
+            boolean replaceVariables = fieldAnnotation.replaceVariables();
             if (fieldType.equals("id")) {
                 field.setAccessible(true);
                 try {
@@ -130,7 +132,8 @@ public class ConditionRegisterer {
                     field.setAccessible(false);
                 }
             } else if (fieldType.equals("queue")) {
-                if (!section.contains("queue") || !section.isInt("queue")) throw new ActionException(condition, "The queue number is undetermined! (" + id + ")");
+                if (!section.contains("queue") || !section.isInt("queue"))
+                    throw new ActionException(condition, "The queue number is undetermined! (" + id + ")");
                 field.setAccessible(true);
                 try {
                     field.set(condition, section.getInt("queue"));
@@ -144,7 +147,8 @@ public class ConditionRegisterer {
                 if (field.getType().isAssignableFrom(ItemStack.class)) {
                     if (!section.contains(fieldType) || !section.isConfigurationSection(fieldType)) {
                         if (!fieldRequired) continue;
-                        else throw new ActionException(condition, fieldType + " item information is missing! (" + id + ")");
+                        else
+                            throw new ActionException(condition, fieldType + " item information is missing! (" + id + ")");
                     }
                     ItemStack item = ItemUtil.deserializeItemStack(section.getConfigurationSection(fieldType), rank);
                     field.setAccessible(true);
@@ -159,9 +163,17 @@ public class ConditionRegisterer {
                 } else {
                     if (!section.contains(fieldType)) {
                         if (!fieldRequired) continue;
-                        else throw new ActionException(condition, fieldType + " custom data information is missing! (" + id + ")");
+                        else
+                            throw new ActionException(condition, fieldType + " custom data information is missing! (" + id + ")");
                     }
                     Object customData = section.get(fieldType);
+                    if (replaceVariables && customData instanceof String) {
+                        if (replaceData != null) {
+                            for (Map.Entry<String, Object> entry : replaceData.entrySet()) {
+                                customData = ((String) customData).replace("%" + entry.getKey().toLowerCase() + "%", String.valueOf(entry.getValue()));
+                            }
+                        }
+                    }
                     field.setAccessible(true);
                     try {
                         field.set(condition, customData);
