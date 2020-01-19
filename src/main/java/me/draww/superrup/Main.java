@@ -5,6 +5,7 @@ import me.draww.superrup.api.SuperRankupAPI;
 import me.draww.superrup.group.IGroupManager;
 import me.draww.superrup.group.LuckPermsGroupManager;
 import me.draww.superrup.group.PermissionsExGroupManager;
+import me.draww.superrup.group.SRGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -78,11 +79,14 @@ public class Main extends JavaPlugin {
 
     private boolean setupGroupManager() {
         String permissionProvider = config.getConfig().getString("permission_provider");
-        if (permissionProvider.equals("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
+        if (permissionProvider.equalsIgnoreCase("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
             groupManager = new LuckPermsGroupManager();
             return true;
-        } else if (permissionProvider.equals("PermissionsEx") && this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
+        } else if (permissionProvider.equalsIgnoreCase("PermissionsEx") && this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
             groupManager = new PermissionsExGroupManager();
+            return true;
+        } else if (permissionProvider.equalsIgnoreCase("Custom")) {
+            groupManager = new SRGroupManager(SRGroupManager.Type.valueOf(config.getConfig().getString("settings.type").toUpperCase()));
             return true;
         }
         return false;
@@ -90,7 +94,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        getGroupManager().close();
     }
 
     public void reload() {
@@ -129,6 +133,10 @@ public class Main extends JavaPlugin {
 
     public IGroupManager getGroupManager() {
         return groupManager;
+    }
+
+    public void setGroupManager(IGroupManager groupManager) {
+        this.groupManager = groupManager;
     }
 
     public RankManager getRankManager() {

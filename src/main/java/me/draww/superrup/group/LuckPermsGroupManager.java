@@ -67,6 +67,11 @@ public class LuckPermsGroupManager implements IGroupManager {
         api.getUserManager().saveUser(luckUser);
     }
 
+    @Override
+    public void close() {
+        throw new UnsupportedOperationException("This method is unnecessary in this class.");
+    }
+
     public LuckPermsApi getApi() {
         return api;
     }
