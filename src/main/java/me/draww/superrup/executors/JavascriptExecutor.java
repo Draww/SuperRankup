@@ -28,8 +28,11 @@ public class JavascriptExecutor implements Executor<Player> {
     @ActionField(type = "rank")
     private Rank rank;
 
-    @ActionField(type = "file", required = true, custom = true)
+    @ActionField(type = "file", custom = true)
     private String filePath;
+
+    @ActionField(type = "value", custom = true)
+    private String scripts;
 
     private String fileContent;
 
@@ -38,9 +41,13 @@ public class JavascriptExecutor implements Executor<Player> {
 
     @Override
     public void onSetup() throws ActionException {
-        File jsFile = new File(Main.INSTANCE.getJsFolder(), filePath + ".js");
-        if (!jsFile.exists()) throw new ActionException(this, filePath + ".js file is not exist");
-        fileContent = FileUtil.read(jsFile);
+        if (filePath != null) {
+            File jsFile = new File(Main.INSTANCE.getJsFolder(), filePath + ".js");
+            if (!jsFile.exists()) throw new ActionException(this, filePath + ".js file is not exist");
+            fileContent = FileUtil.read(jsFile);
+        } else {
+            fileContent = scripts;
+        }
         try {
             NashornScriptEngineFactory factory = (NashornScriptEngineFactory) engineManager.getEngineFactories().stream().filter(factories -> "Oracle Nashorn".equalsIgnoreCase(factories.getEngineName())).findFirst().orElse(null);
             engine = Objects.requireNonNull(factory).getScriptEngine("-doe", "--global-per-engine");
