@@ -54,7 +54,7 @@ public class Main extends JavaPlugin {
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        api = new SuperRankupAPI();
+        api = new SuperRankupAPI(this);
         rankManager = new RankManager(this);
         rankManager.setup();
         getCommand("rank").setExecutor(new RankCommand());
