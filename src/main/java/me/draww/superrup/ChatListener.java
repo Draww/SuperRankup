@@ -1,6 +1,7 @@
 package me.draww.superrup;
 
 import me.draww.superrup.group.SRGroupManager;
+import me.draww.superrup.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -35,8 +36,12 @@ public class ChatListener implements EventExecutor, Listener {
     }
 
     private void onEvent(AsyncPlayerChatEvent event) {
+        if (event.isCancelled()) return;
         String format = event.getFormat();
-        format = format.replace("%superrup_group%", ((SRGroupManager) Main.INSTANCE.getGroupManager()).getPrefix(event.getPlayer()));
+        if (format == null) return;
+        String prefix = ((SRGroupManager) Main.INSTANCE.getGroupManager()).getPrefix(event.getPlayer());
+        if (prefix == null) return;
+        format = format.replace("{superrup_group}", Text.colorize(prefix));
         event.setFormat(format);
     }
 
