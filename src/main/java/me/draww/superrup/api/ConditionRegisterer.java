@@ -49,24 +49,28 @@ public class ConditionRegisterer {
         Map<String, Condition> conditionMap = new HashMap<>();
         for (String condKey : section.getKeys(false)) {
             if (section.contains(condKey + ".template") && section.isString(condKey + ".template")) {
-                ConfigurationSection templateSection = Main.INSTANCE.getTemplateConfig().getConfigurationSection("conditions." + section.getString(condKey + ".template"));
-                if (!templateSection.contains("type") && !templateSection.isString("type")) continue;
-                try {
-                    Condition condition = createNewCondition(templateSection.getString("type"));
-                    if (condition == null) {
-                        Main.INSTANCE.getLogger().severe("The action type is wrong! (" + condKey + ")");
+                if (section.contains(condKey + ".queue") && section.isInt(condKey + ".queue")) {
+                    ConfigurationSection templateSection = Main.INSTANCE.getTemplateConfig().getConfigurationSection("conditions." + section.getString(condKey + ".template"));
+                    if (!templateSection.contains("type") && !templateSection.isString("type")) continue;
+                    try {
+                        Condition condition = createNewCondition(templateSection.getString("type"));
+                        if (condition == null) {
+                            Main.INSTANCE.getLogger().severe("The action type is wrong! (" + condKey + ")");
+                            continue;
+                        }
+                        setupFields(condition, condKey, templateSection, rank, section.getInt(condKey + ".queue"));
+                        condition.onSetup();
+                        conditionMap.put(condKey, condition);
+                    } catch (IllegalAccessException | InstantiationException | ActionException e) {
+                        if (e instanceof ActionException) {
+                            Main.INSTANCE.getLogger().severe(e.getMessage());
+                            continue;
+                        }
+                        e.printStackTrace();
                         continue;
                     }
-                    setupFields(condition, condKey, templateSection, rank);
-                    condition.onSetup();
-                    conditionMap.put(condKey, condition);
-                } catch (IllegalAccessException | InstantiationException | ActionException e) {
-                    if (e instanceof ActionException) {
-                        Main.INSTANCE.getLogger().severe(e.getMessage());
-                        continue;
-                    }
-                    e.printStackTrace();
-                    continue;
+                } else {
+                    Main.INSTANCE.getLogger().severe("The queue number is undetermined! (" + condKey + ")");
                 }
             } else {
                 ConfigurationSection conditionSection = section.getConfigurationSection(condKey);
@@ -77,7 +81,7 @@ public class ConditionRegisterer {
                         Main.INSTANCE.getLogger().severe("The action type is wrong! (" + condKey + ")");
                         continue;
                     }
-                    setupFields(condition, condKey, conditionSection, rank);
+                    setupFields(condition, condKey, conditionSection, rank, null);
                     condition.onSetup();
                     conditionMap.put(condKey, condition);
                 } catch (IllegalAccessException | InstantiationException | ActionException e) {
@@ -102,7 +106,7 @@ public class ConditionRegisterer {
         return null;
     }
 
-    private void setupFields(Condition condition, String id, ConfigurationSection section, Rank rank) throws ActionException {
+    private void setupFields(Condition condition, String id, ConfigurationSection section, Rank rank, Integer queue) throws ActionException {
         List<Field> annotatedFields = Arrays.stream(condition.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(ActionField.class)).collect(Collectors.toList());
         Map<String, Object> replaceData = section.getValues(true);
         for (Field field : annotatedFields) {
@@ -132,11 +136,11 @@ public class ConditionRegisterer {
                     field.setAccessible(false);
                 }
             } else if (fieldType.equals("queue")) {
-                if (!section.contains("queue") || !section.isInt("queue"))
+                if (queue == null && (!section.contains("queue") || !section.isInt("queue")))
                     throw new ActionException(condition, "The queue number is undetermined! (" + id + ")");
                 field.setAccessible(true);
                 try {
-                    field.set(condition, section.getInt("queue"));
+                    field.set(condition, queue == null ? section.getInt("queue") : queue);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     continue;

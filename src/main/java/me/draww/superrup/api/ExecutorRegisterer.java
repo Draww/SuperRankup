@@ -61,24 +61,28 @@ public class ExecutorRegisterer {
         Map<String, Executor> executorMap = new HashMap<>();
         for (String executorKey : section.getKeys(false)) {
             if (section.contains(executorKey + ".template") && section.isString(executorKey + ".template")) {
-                ConfigurationSection templateSection = Main.INSTANCE.getTemplateConfig().getConfigurationSection("executors." + section.getString(executorKey + ".template"));
-                if (!templateSection.contains("type") && !templateSection.isString("type")) continue;
-                try {
-                    Executor executor = createNewExecutor(templateSection.getString("type"));
-                    if (executor == null) {
-                        Main.INSTANCE.getLogger().severe("The action type is wrong! (" + executorKey + ")");
+                if (section.contains(executorKey + ".queue") && section.isInt(executorKey + ".queue")) {
+                    ConfigurationSection templateSection = Main.INSTANCE.getTemplateConfig().getConfigurationSection("executors." + section.getString(executorKey + ".template"));
+                    if (!templateSection.contains("type") && !templateSection.isString("type")) continue;
+                    try {
+                        Executor executor = createNewExecutor(templateSection.getString("type"));
+                        if (executor == null) {
+                            Main.INSTANCE.getLogger().severe("The action type is wrong! (" + executorKey + ")");
+                            continue;
+                        }
+                        setupFields(executor, executorKey, templateSection, rank, section.getInt(executorKey + ".queue"));
+                        executor.onSetup();
+                        executorMap.put(executorKey, executor);
+                    } catch (IllegalAccessException | InstantiationException | ActionException e) {
+                        if (e instanceof ActionException) {
+                            Main.INSTANCE.getLogger().severe(e.getMessage());
+                            continue;
+                        }
+                        e.printStackTrace();
                         continue;
                     }
-                    setupFields(executor, executorKey, templateSection, rank);
-                    executor.onSetup();
-                    executorMap.put(executorKey, executor);
-                } catch (IllegalAccessException | InstantiationException | ActionException e) {
-                    if (e instanceof ActionException) {
-                        Main.INSTANCE.getLogger().severe(e.getMessage());
-                        continue;
-                    }
-                    e.printStackTrace();
-                    continue;
+                } else {
+                    Main.INSTANCE.getLogger().severe("The queue number is undetermined! (" + executorKey + ")");
                 }
             } else {
                 ConfigurationSection executorSection = section.getConfigurationSection(executorKey);
@@ -89,7 +93,7 @@ public class ExecutorRegisterer {
                         Main.INSTANCE.getLogger().severe("The action type is wrong! (" + executorKey + ")");
                         continue;
                     }
-                    setupFields(executor, executorKey, executorSection, rank);
+                    setupFields(executor, executorKey, executorSection, rank, null);
                     executor.onSetup();
                     executorMap.put(executorKey, executor);
                 } catch (IllegalAccessException | InstantiationException | ActionException e) {
@@ -114,7 +118,7 @@ public class ExecutorRegisterer {
         return null;
     }
 
-    private void setupFields(Executor executor, String id, ConfigurationSection section, Rank rank) throws ActionException {
+    private void setupFields(Executor executor, String id, ConfigurationSection section, Rank rank, Integer queue) throws ActionException {
         List<Field> annotatedFields = Arrays.stream(executor.getClass().getDeclaredFields()).filter(field -> field.isAnnotationPresent(ActionField.class)).collect(Collectors.toList());
         Map<String, Object> replaceData = section.getValues(true);
         for (Field field : annotatedFields) {
@@ -144,11 +148,11 @@ public class ExecutorRegisterer {
                     field.setAccessible(false);
                 }
             } else if (fieldType.equals("queue")) {
-                if (!section.contains("queue") || !section.isInt("queue"))
+                if (queue == null && (!section.contains("queue") || !section.isInt("queue")))
                     throw new ActionException(executor, "The queue number is undetermined! (" + id + ")");
                 field.setAccessible(true);
                 try {
-                    field.set(executor, section.getInt("queue"));
+                    field.set(executor, queue == null ? section.getInt("queue") : queue);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     continue;
@@ -176,7 +180,7 @@ public class ExecutorRegisterer {
                     if (!section.contains(fieldType)) {
                         if (!fieldRequired) continue;
                         else
-                            throw new ActionException(executor, fieldType + " custom data information is missing! (" + id + ")");
+                            throw new ActionException(executor, "custom data information is missing! (" + id + ")");
                     }
                     Object customData = section.get(fieldType);
                     if (replaceVariables && customData instanceof String) {
