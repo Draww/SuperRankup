@@ -6,8 +6,7 @@ import org.bukkit.entity.Player;
 public class ActionUtil {
 
     public static void message(Player player, String message, Condition condition) {
-        //TODO: config data
-        message = StringUtil.replacePlayerPlaceholders(player, message
+        message = Text.replacePlayerPlaceholders(player, message
                 .replace("%rank%", condition.rank().getId())
                 .replace("%rank_group%", condition.rank().getGroup()));
         player.sendMessage(Text.colorize(message));

@@ -19,12 +19,12 @@ public class SoundExecutor implements Executor<Player> {
     private Rank rank;
 
     @ActionField(type = "value", required = true, custom = true)
-    private String value;
+    private String sound;
 
     @Override
     public void run(Player player) {
         final float soundFloat = 1.0f;
-        player.playSound(player.getLocation(), Sound.valueOf(value.toUpperCase()), soundFloat, soundFloat);
+        player.playSound(player.getLocation(), Sound.valueOf(sound.toUpperCase()), soundFloat, soundFloat);
     }
 
     @Override

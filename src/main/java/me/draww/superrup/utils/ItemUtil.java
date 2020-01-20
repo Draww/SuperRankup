@@ -33,7 +33,7 @@ public class ItemUtil {
         ItemStackBuilder stackBuilder = ItemStackBuilder.of(newItem);
         String oldName = meta.getDisplayName();
         if (oldName != null) {
-            String newName = StringUtil.replacePlayerPlaceholders(player, oldName);
+            String newName = Text.replacePlayerPlaceholders(player, oldName);
             if (variables.length > 1) {
                 for (int i = 0; i < variables.length; i += 2) {
                     newName = newName.replace(variables[i], variables[i + 1]);
@@ -45,7 +45,7 @@ public class ItemUtil {
         if (oldLores != null) {
             List<String> newLores = new ArrayList<>();
             for (String lore : oldLores) {
-                String newLore = StringUtil.replacePlayerPlaceholders(player, lore);
+                String newLore = Text.replacePlayerPlaceholders(player, lore);
                 if (variables.length > 1) {
                     for (int i = 0; i < variables.length; i += 2) {
                         newLore = newLore.replace(variables[i], variables[i + 1]);
@@ -62,7 +62,7 @@ public class ItemUtil {
                    List<String> oldPages = new ArrayList<>();
                    List<String> newPages = new ArrayList<>();
                    for (String oldPage : oldPages) {
-                       newPages.add(Text.colorize(StringUtil.replacePlayerPlaceholders(player, oldPage)));
+                       newPages.add(Text.colorize(Text.replacePlayerPlaceholders(player, oldPage)));
                    }
                    if (!newPages.isEmpty()) bookMeta.setPages(newPages);
                }

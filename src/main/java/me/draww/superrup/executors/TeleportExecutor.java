@@ -21,11 +21,11 @@ public class TeleportExecutor implements Executor<Player> {
     private Rank rank;
 
     @ActionField(type = "value", required = true, custom = true, replaceVariables = true)
-    private String value;
+    private String teleportValue;
 
     @Override
     public void run(Player player) {
-        final String[] location = value.split(";");
+        final String[] location = teleportValue.split(";");
         Location destination;
         if (location.length == 4){
             final World world = Bukkit.getWorld(location[0]);

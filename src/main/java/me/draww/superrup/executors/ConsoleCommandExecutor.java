@@ -4,7 +4,7 @@ import me.draww.superrup.Rank;
 import me.draww.superrup.api.Executor;
 import me.draww.superrup.api.annotations.ActionField;
 import me.draww.superrup.api.exception.ActionException;
-import me.draww.superrup.utils.StringUtil;
+import me.draww.superrup.utils.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -21,18 +21,18 @@ public class ConsoleCommandExecutor implements Executor<Player> {
     private Rank rank;
 
     @ActionField(type = "value", required = true, custom = true, replaceVariables = true)
-    private String value;
+    private String command;
 
     @Override
     public void onSetup() throws ActionException {
-        value = value
+        command = command
                 .replace("%rank%", rank.getId())
                 .replace("%rank_group%", rank.getGroup());
     }
 
     @Override
     public void run(Player player) {
-        String editedCommand = StringUtil.replacePlayerPlaceholders(player, this.value);
+        String editedCommand = Text.replacePlayerPlaceholders(player, this.command);
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), editedCommand);
     }
 

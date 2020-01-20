@@ -19,11 +19,11 @@ public class WithdrawMoneyExecutor implements Executor<Player> {
     private Rank rank;
 
     @ActionField(type = "value", required = true, custom = true)
-    private Double value;
+    private Double money;
 
     @Override
     public void run(Player player) {
-        Main.INSTANCE.getVaultEconomy().withdrawPlayer(player, value);
+        Main.INSTANCE.getVaultEconomy().withdrawPlayer(player, money);
     }
 
     @Override
