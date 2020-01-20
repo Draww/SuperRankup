@@ -32,7 +32,9 @@ public class RankMenu extends NormalMenu {
         this.config = Main.INSTANCE.getMainConfig().getConfig();
         this.player = player;
         this.currentPage = 1;
-        String group = Main.INSTANCE.getGroupManager().getPlayerPrimaryGroup(player);
+        String groupSetup = Main.INSTANCE.getGroupManager().getPlayerPrimaryGroup(player);
+        if (groupSetup == null) groupSetup = "default";
+        final String group = groupSetup;
         if (Main.INSTANCE.getMainConfig().getConfig().getStringList("disabled_groups").contains(group)) {
             player.sendMessage(Text.colorize(Main.INSTANCE.getLanguageConfig().getConfig().getString("disable_group")));
             return;
@@ -96,12 +98,12 @@ public class RankMenu extends NormalMenu {
                             addLast(new BasicElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconJump()),
                                     new BasicTarget(e -> {
                                         e.cancel();
+                                        e.closeView();
                                         boolean controlConditions = ConditionRegisterer.testAllConditions(player, rank);
                                         if (controlConditions) {
-                                            Main.INSTANCE.getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
                                             ExecutorRegisterer.runAllExecutors(player, rank);
+                                            Main.INSTANCE.getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
                                         }
-                                        e.closeView();
                                     })));
                         } else {
                             addLast(ElementUtil.emptyElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconHigh())));
