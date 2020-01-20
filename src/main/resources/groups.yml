@@ -2,5 +2,5 @@
 # prefixes will be used by any chat format plugin. (plugins like EssentialsChat)
 # Place %superrup_group% in the format settings of the chat format plugin config file.
 
-Example_Rank:
-  prefix: "&a[Example]"
+example_group:
+  prefix: "&8[&cExample&8]"

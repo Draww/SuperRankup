@@ -5,7 +5,7 @@ settings:
   # custom provider types : YAML, SQLite
   type: YAML
   # Chat listener priorities: LOWEST, LOW, NORMAL, HIGH, HIGHEST, MONITOR
-  listener_priority: LOWEST
+  listener_priority: HIGHEST
 disabled_groups:
   - VIP
   - ExampleVIP
