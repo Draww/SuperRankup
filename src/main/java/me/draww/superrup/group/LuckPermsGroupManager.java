@@ -68,8 +68,13 @@ public class LuckPermsGroupManager implements IGroupManager {
     }
 
     @Override
+    public void reload() {
+
+    }
+
+    @Override
     public void close() {
-        throw new UnsupportedOperationException("This method is unnecessary in this class.");
+
     }
 
     public LuckPermsApi getApi() {

@@ -106,6 +106,7 @@ public class Main extends JavaPlugin {
         api.getConditionRegisterer().reload();
         api.getExecutorRegisterer().reload();
         rankManager.reload();
+        groupManager.reload();
     }
 
     public SuperRankupAPI getApi() {

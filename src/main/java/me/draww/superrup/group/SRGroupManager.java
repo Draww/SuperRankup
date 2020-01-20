@@ -112,6 +112,15 @@ public class SRGroupManager implements IGroupManager {
     }
 
     @Override
+    public void reload() {
+        if (type.equals(Type.YAML)) {
+            Config dataConfig = getData();
+            dataConfig.load();
+        }
+        groupsConfig.load();
+    }
+
+    @Override
     public void close() {
         chatListener.unregister();
     }
