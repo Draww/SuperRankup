@@ -95,7 +95,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getGroupManager().close();
+        if (groupManager != null) groupManager.close();
     }
 
     public void reload() {
