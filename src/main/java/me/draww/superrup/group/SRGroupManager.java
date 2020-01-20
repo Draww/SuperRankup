@@ -42,7 +42,7 @@ public class SRGroupManager implements IGroupManager {
     private void loadManager() throws UncheckedSqlException {
         groupsConfig = new Config(Main.INSTANCE, "groups.yml", true);
         chatListenerPriority = EventPriority.valueOf(Main.INSTANCE.getMainConfig().getConfig().getString("settings.listener_priority").toUpperCase());
-        chatListener = new ChatListener();
+        chatListener = new ChatListener(chatListenerPriority);
         chatListener.register();
         switch (type) {
             case YAML:
@@ -119,10 +119,6 @@ public class SRGroupManager implements IGroupManager {
     @SuppressWarnings("unchecked")
     private <T> T getData() {
         return (T) data;
-    }
-
-    public EventPriority getChatListenerPriority() {
-        return chatListenerPriority;
     }
 
     public String getPrefix(Player player) {

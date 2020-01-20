@@ -3,6 +3,7 @@ package me.draww.superrup;
 import me.draww.superrup.group.SRGroupManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -13,7 +14,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ChatListener implements EventExecutor, Listener {
 
+    private final EventPriority priority;
     private final AtomicBoolean active = new AtomicBoolean(true);
+
+    public ChatListener(EventPriority priority) {
+        this.priority = priority;
+    }
 
     @Override
     public void execute(Listener listener, Event event) {
@@ -35,7 +41,7 @@ public class ChatListener implements EventExecutor, Listener {
     }
 
     public void register() {
-        Bukkit.getPluginManager().registerEvent(AsyncPlayerChatEvent.class, this, ((SRGroupManager) Main.INSTANCE.getGroupManager()).getChatListenerPriority(), this, Main.INSTANCE, false);
+        Bukkit.getPluginManager().registerEvent(AsyncPlayerChatEvent.class, this, priority, this, Main.INSTANCE, false);
     }
 
     @SuppressWarnings("UnusedReturnValue")
