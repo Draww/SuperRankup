@@ -40,10 +40,11 @@ public class Main extends JavaPlugin {
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         languageConfig = new Config(this, "language.yml", true);
-        jsFolder = new File(getDataFolder(), "js");
-        if (!jsFolder.exists()) //noinspection ResultOfMethodCallIgnored
+        jsFolder = new File(getDataFolder(), "scripts");
+        if (!jsFolder.exists()) { //noinspection ResultOfMethodCallIgnored
             jsFolder.mkdirs();
-        Config.copy(getResource("example.js"), new File(jsFolder, "example.js"));
+            Config.copy(getResource("example.js"), new File(jsFolder, "example.js"));
+        }
         if (!setupGroupManager()) {
             getLogger().severe("group manager was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
