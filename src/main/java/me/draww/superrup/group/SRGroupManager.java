@@ -48,7 +48,7 @@ public class SRGroupManager implements IGroupManager {
             case YAML:
                 data = new Config(Main.INSTANCE, "data.yml", false);
                 break;
-            case SQLite:
+            case SQLITE:
                 data = Wrap.get(() -> SqlStreams.connect(DriverManager.getConnection("jdbc:sqlite:" + new File(Main.INSTANCE.getDataFolder(), "data.db").getAbsolutePath())));
                 SqlStreams sqlStreams = getData();
                 sqlStreams.exec("CREATE TABLE IF NOT EXISTS Players(" +
@@ -85,7 +85,7 @@ public class SRGroupManager implements IGroupManager {
                 } else {
                     return null;
                 }
-            case SQLite:
+            case SQLITE:
                 SqlStreams sqlStreams = getData();
                 Optional<String> optRank = sqlStreams.first("SELECT rank FROM Players WHERE playerName = ?", resultSet -> resultSet.getString("rank"), player.getName());
                 return optRank.orElse(null);
@@ -100,7 +100,7 @@ public class SRGroupManager implements IGroupManager {
             case YAML:
                 Config config = getData();
                 config.getConfig().set(player.getName(), group);
-            case SQLite:
+            case SQLITE:
                 SqlStreams sqlStreams = getData();
                 Optional<String> optRank = sqlStreams.first("SELECT rank FROM Players WHERE playerName = ?", resultSet -> resultSet.getString("rank"), player.getName());
                 if (optRank.isPresent()) {
@@ -137,7 +137,7 @@ public class SRGroupManager implements IGroupManager {
     }
 
     public enum Type {
-        YAML, SQLite;
+        YAML, SQLITE;
     }
 
 }
