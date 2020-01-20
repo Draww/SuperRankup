@@ -1,7 +1,7 @@
 package me.draww.superrup;
 
-import me.draww.superrup.condition.Condition;
-import me.draww.superrup.executor.Executor;
+import me.draww.superrup.api.Condition;
+import me.draww.superrup.api.Executor;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Comparator;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("WeakerAccess")
 public class Rank {
 
     private String id;
@@ -42,11 +43,11 @@ public class Rank {
     }
 
     public List<Condition> getSortedConditions() {
-        return conditions.values().stream().sorted(Comparator.comparingInt(Condition::getQueue)).collect(Collectors.toList());
+        return conditions.values().stream().sorted(Comparator.comparingInt(Condition::queue)).collect(Collectors.toList());
     }
 
     public List<Executor> getSortedExecutors() {
-        return executors.values().stream().sorted(Comparator.comparingInt(Executor::getQueue)).collect(Collectors.toList());
+        return executors.values().stream().sorted(Comparator.comparingInt(Executor::queue)).collect(Collectors.toList());
     }
 
     public String getId() {

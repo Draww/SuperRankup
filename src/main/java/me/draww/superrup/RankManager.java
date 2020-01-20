@@ -1,12 +1,11 @@
 package me.draww.superrup;
 
-import me.draww.superrup.condition.ConditionProvider;
-import me.draww.superrup.executor.ExecutorProvider;
 import me.draww.superrup.utils.ItemUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("WeakerAccess")
 public class RankManager {
 
     private final Main plugin;
@@ -57,10 +56,10 @@ public class RankManager {
 
     public void reload() {
         rankMap = new HashMap<>();
-        init();
+        setup();
     }
 
-    public void init() {
+    public void setup() {
         for (String rank : ranksConfig.getConfig().getKeys(false)) {
             if ((!ranksConfig.getConfig().contains(rank + ".group") && !ranksConfig.getConfig().isString(rank + ".group"))
                     || (!ranksConfig.getConfig().contains(rank + ".queue") && !ranksConfig.getConfig().isInt(rank + ".queue"))
@@ -73,8 +72,8 @@ public class RankManager {
             newRank.setIconJump(ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.jump"), newRank));
             newRank.setIconEqual(ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.equal"), newRank));
             newRank.setIconHigh(ItemUtil.deserializeItemStack(ranksConfig.getConfig().getConfigurationSection(rank + ".icon.high"), newRank));
-            newRank.setConditions(ConditionProvider.deserializeConditions(ranksConfig.getConfig().getConfigurationSection(rank + ".conditions"), newRank));
-            newRank.setExecutors(ExecutorProvider.deserializeExecutors(ranksConfig.getConfig().getConfigurationSection(rank + ".executors"), newRank));
+            newRank.setConditions(Main.INSTANCE.getApi().getConditionRegisterer().deserializeConditions(ranksConfig.getConfig().getConfigurationSection(rank + ".conditions"), newRank));
+            newRank.setExecutors(Main.INSTANCE.getApi().getExecutorRegisterer().deserializeExecutors(ranksConfig.getConfig().getConfigurationSection(rank + ".executors"), newRank));
             rankMap.put(rank, newRank);
         }
     }

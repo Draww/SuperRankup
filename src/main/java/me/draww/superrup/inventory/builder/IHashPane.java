@@ -38,41 +38,6 @@ public interface IHashPane {
     void fillElement(final String id, final int number, final Element element);
     void fillElement(final String id, final int number, final Element... elements);
 
-    default void fillElementExtra(final String id, final int number, final Element element) {
-        //Unsupported
-    };
-    default void fillElementExtra(final String id, final int number, final Element... elements) {
-        //Unsupported
-    };
-
-    default void fillRow(final String id, final int number, final int row, final Element element) {
-        //Unsupported
-    };
-    default void fillRow(final String id, final int number, final int row, final Element... element) {
-        //Unsupported
-    };
-
-    default void fillColumn(final String id, final int number, final int column, final Element element) {
-        //Unsupported
-    };
-    default void fillColumn(final String id, final int number, final int column, final Element... element) {
-        //Unsupported
-    };
-
-    default void fillBorders(final String id, final int number, final Element element) {
-        //Unsupported
-    };
-    default void fillBorders(final String id, final int number, final Element... element) {
-        //Unsupported
-    };
-
-    default void fillRect(final String id, final int number, final int fromRow, final int fromColumn, final int toRow, final int toColumn, final Element element) {
-        //Unsupported
-    };
-    default void fillRect(final String id, final int number, final int fromRow, final int fromColumn, final int toRow, final int toColumn, final Element... element) {
-        //Unsupported
-    };
-
     void insertElement(final String id, final int number, final Element element, final int locX, final int locY, final boolean shift) throws IllegalArgumentException;
 
     void clear();

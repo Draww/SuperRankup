@@ -4,6 +4,10 @@ version: ${project.version}
 author: draww
 website: https://draww.me/
 softdepend: [Vault, LuckPerms, PermissionsEx, PlaceholderAPI]
+commands:
+  rank:
+    description: main command
+    usage: /rank
 permissions:
   superrup.*:
     default: false

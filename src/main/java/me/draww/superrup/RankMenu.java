@@ -4,8 +4,8 @@ import me.blackness.black.Element;
 import me.blackness.black.element.BasicElement;
 import me.blackness.black.pane.BasicPane;
 import me.blackness.black.target.BasicTarget;
-import me.draww.superrup.condition.ConditionProvider;
-import me.draww.superrup.executor.ExecutorProvider;
+import me.draww.superrup.api.ConditionRegisterer;
+import me.draww.superrup.api.ExecutorRegisterer;
 import me.draww.superrup.inventory.builder.NormalMenu;
 import me.draww.superrup.inventory.util.ElementUtil;
 import me.draww.superrup.utils.ItemStackBuilder;
@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class RankMenu extends NormalMenu {
 
     private final FileConfiguration config;
@@ -26,14 +27,16 @@ public class RankMenu extends NormalMenu {
     private Integer currentPage;
 
     public RankMenu(Player player) {
-        super("Rank", Text.colorize(Main.getInstance().getMainConfig().getConfig().getString("menu.title")),
-                Main.getInstance().getMainConfig().getConfig().getInt("menu.size") * 9);
-        this.config = Main.getInstance().getMainConfig().getConfig();
+        super("Rank", Text.colorize(Main.INSTANCE.getMainConfig().getConfig().getString("menu.title")),
+                Main.INSTANCE.getMainConfig().getConfig().getInt("menu.size") * 9);
+        this.config = Main.INSTANCE.getMainConfig().getConfig();
         this.player = player;
         this.currentPage = 1;
-        String group = Main.getInstance().getGroupManager().getPlayerPrimaryGroup(player);
-        if (Main.getInstance().getMainConfig().getConfig().getStringList("disabled_groups").contains(group)) {
-            player.sendMessage(Text.colorize(Main.getInstance().getLanguageConfig().getConfig().getString("disable_group")));
+        String groupSetup = Main.INSTANCE.getGroupManager().getPlayerPrimaryGroup(player);
+        if (groupSetup == null) groupSetup = "default";
+        final String group = groupSetup;
+        if (Main.INSTANCE.getMainConfig().getConfig().getStringList("disabled_groups").contains(group)) {
+            player.sendMessage(Text.colorize(Main.INSTANCE.getLanguageConfig().getConfig().getString("disable_group")));
             return;
         }
         add("ranks");
@@ -76,7 +79,7 @@ public class RankMenu extends NormalMenu {
                 fillElement("updowninfo", 0, ElementUtil.emptyElement(item));
             }
         }
-        List<Rank> ranks = Main.getInstance().getRankManager().getSortedRanks();
+        List<Rank> ranks = Main.INSTANCE.getRankManager().getSortedRanks();
         if (ranks != null && !ranks.isEmpty()) {
             Integer indexPlayer = null;
             for (Rank rank : ranks.toArray(new Rank[0])) {
@@ -95,12 +98,12 @@ public class RankMenu extends NormalMenu {
                             addLast(new BasicElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconJump()),
                                     new BasicTarget(e -> {
                                         e.cancel();
-                                        boolean controlConditions = ConditionProvider.testAllConditions(player, rank);
-                                        if (controlConditions) {
-                                            Main.getInstance().getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
-                                            ExecutorProvider.runAllExecutors(player, rank);
-                                        }
                                         e.closeView();
+                                        boolean controlConditions = ConditionRegisterer.testAllConditions(player, rank);
+                                        if (controlConditions) {
+                                            ExecutorRegisterer.runAllExecutors(player, rank);
+                                            Main.INSTANCE.getGroupManager().setPlayerPrimaryGroup(player, rank.getGroup());
+                                        }
                                     })));
                         } else {
                             addLast(ElementUtil.emptyElement(ItemUtil.redesignPlaceholderItemStack(player, rank.getIconHigh())));

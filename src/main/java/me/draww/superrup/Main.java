@@ -1,54 +1,64 @@
 package me.draww.superrup;
 
-import co.aikar.commands.BukkitCommandManager;
 import me.blackness.black.Blackness;
+import me.draww.superrup.api.SuperRankupAPI;
 import me.draww.superrup.group.IGroupManager;
 import me.draww.superrup.group.LuckPermsGroupManager;
 import me.draww.superrup.group.PermissionsExGroupManager;
-import net.milkbowl.vault.Vault;
+import me.draww.superrup.group.SRGroupManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
+@SuppressWarnings("WeakerAccess")
 public class Main extends JavaPlugin {
 
-    private static Main instance;
+    public static Main INSTANCE;
+
+    private SuperRankupAPI api;
 
     private Config config;
     private Config ranksConfig;
     private Config templateConfig;
     private Config languageConfig;
 
+    private File jsFolder;
+
     private IGroupManager groupManager;
     private RankManager rankManager;
     private Economy vaultEconomy;
-
-    private BukkitCommandManager commandManager;
 
     private Metrics metrics;
 
     @Override
     public void onEnable() {
-        instance = this;
+        INSTANCE = this;
         config = new Config(this, "config.yml", true);
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         languageConfig = new Config(this, "language.yml", true);
-        if (!initGroupManager()) {
+        jsFolder = new File(getDataFolder(), "scripts");
+        if (!jsFolder.exists()) { //noinspection ResultOfMethodCallIgnored
+            jsFolder.mkdirs();
+            Config.copy(getResource("example.js"), new File(jsFolder, "example.js"));
+        }
+        if (!setupGroupManager()) {
             getLogger().severe("group manager was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        if (!initVaultManager()) {
+        if (!setupVaultManager()) {
             getLogger().severe("Vault was not loaded.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        api = new SuperRankupAPI(this);
         rankManager = new RankManager(this);
-        rankManager.init();
-        commandManager = new BukkitCommandManager(this);
-        commandManager.registerCommand(new RankCommand());
+        rankManager.setup();
+        getCommand("rank").setExecutor(new RankCommand());
         new Blackness().prepareFor(this);
         metrics = new Metrics(this);
     }
@@ -57,8 +67,8 @@ public class Main extends JavaPlugin {
         return this.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
-    private boolean initVaultManager() {
-        if (this.getServer().getPluginManager().getPlugin("Vault") instanceof Vault) {
+    private boolean setupVaultManager() {
+        if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
             RegisteredServiceProvider<Economy> serviceProvider = this.getServer().getServicesManager().getRegistration(Economy.class);
             if (serviceProvider != null) {
                 this.vaultEconomy = serviceProvider.getProvider();
@@ -68,13 +78,16 @@ public class Main extends JavaPlugin {
         return false;
     }
 
-    private boolean initGroupManager() {
+    private boolean setupGroupManager() {
         String permissionProvider = config.getConfig().getString("permission_provider");
-        if (permissionProvider.equals("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
+        if (permissionProvider.equalsIgnoreCase("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
             groupManager = new LuckPermsGroupManager();
             return true;
-        } else if  (permissionProvider.equals("PermissionsEx") && this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
+        } else if (permissionProvider.equalsIgnoreCase("PermissionsEx") && this.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
             groupManager = new PermissionsExGroupManager();
+            return true;
+        } else if (permissionProvider.equalsIgnoreCase("Custom")) {
+            groupManager = new SRGroupManager(SRGroupManager.Type.valueOf(config.getConfig().getString("settings.type").toUpperCase()));
             return true;
         }
         return false;
@@ -82,7 +95,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        if (groupManager != null) groupManager.close();
     }
 
     public void reload() {
@@ -90,11 +103,14 @@ public class Main extends JavaPlugin {
         ranksConfig.load();
         templateConfig.load();
         languageConfig.load();
+        api.getConditionRegisterer().reload();
+        api.getExecutorRegisterer().reload();
         rankManager.reload();
+        groupManager.reload();
     }
 
-    public static Main getInstance() {
-        return instance;
+    public SuperRankupAPI getApi() {
+        return api;
     }
 
     public Config getMainConfig() {
@@ -109,6 +125,10 @@ public class Main extends JavaPlugin {
         return templateConfig;
     }
 
+    public File getJsFolder() {
+        return jsFolder;
+    }
+
     public Config getLanguageConfig() {
         return languageConfig;
     }
@@ -117,16 +137,16 @@ public class Main extends JavaPlugin {
         return groupManager;
     }
 
+    public void setGroupManager(IGroupManager groupManager) {
+        this.groupManager = groupManager;
+    }
+
     public RankManager getRankManager() {
         return rankManager;
     }
 
     public Economy getVaultEconomy() {
         return vaultEconomy;
-    }
-
-    public BukkitCommandManager getCommandManager() {
-        return commandManager;
     }
 
     public Metrics getMetrics() {

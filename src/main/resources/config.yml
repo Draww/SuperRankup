@@ -1,5 +1,11 @@
-# Permission Providers : LuckPerms, PermissionsEx
+# Permission Providers : LuckPerms, PermissionsEx, Custom
+# if the permission provider is custom, edit the settings lines.
 permission_provider: LuckPerms
+settings:
+  # custom provider types : YAML, SQLite
+  type: YAML
+  # Chat listener priorities: LOWEST, LOW, NORMAL, HIGH, HIGHEST, MONITOR
+  listener_priority: HIGHEST
 disabled_groups:
   - VIP
   - ExampleVIP

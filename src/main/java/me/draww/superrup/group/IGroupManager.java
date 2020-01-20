@@ -14,4 +14,8 @@ public interface IGroupManager {
 
     void setPlayerPrimaryGroup(Player player, String group);
 
+    void reload();
+
+    void close();
+
 }

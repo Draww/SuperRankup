@@ -52,4 +52,14 @@ public class PermissionsExGroupManager implements IGroupManager {
         } catch (IllegalStateException ex) { return; }
         pexUser.setGroups(new String[]{group});
     }
+
+    @Override
+    public void reload() {
+
+    }
+
+    @Override
+    public void close() {
+
+    }
 }

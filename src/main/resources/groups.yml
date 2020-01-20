@@ -1,0 +1,6 @@
+# Only the custom permission provider will be used.
+# prefixes will be used by any chat format plugin. (plugins like EssentialsChat)
+# Place {superrup_group} in the format settings of the chat format plugin config file.
+
+example_group:
+  prefix: "&8[&cExample&8]"
