@@ -8,6 +8,7 @@ import me.draww.superrup.api.exception.ActionException;
 import me.draww.superrup.conditions.ExpCondition;
 import me.draww.superrup.conditions.ItemCondition;
 import me.draww.superrup.conditions.MoneyCondition;
+import me.draww.superrup.conditions.PlayTimeCondition;
 import me.draww.superrup.utils.ItemUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -30,6 +31,7 @@ public class ConditionRegisterer {
         register("exp", ExpCondition.class);
         register("item", ItemCondition.class);
         register("money", MoneyCondition.class);
+        register("play_time", PlayTimeCondition.class);
     }
 
     public void register(String id, Class clazz) {

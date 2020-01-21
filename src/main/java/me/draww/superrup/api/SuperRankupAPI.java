@@ -1,6 +1,7 @@
 package me.draww.superrup.api;
 
 import me.draww.superrup.Main;
+import me.draww.superrup.Settings;
 
 public class SuperRankupAPI {
 
@@ -35,5 +36,9 @@ public class SuperRankupAPI {
 
     public ExecutorRegisterer getExecutorRegisterer() {
         return executorRegisterer;
+    }
+
+    public Settings getSettings() {
+        return plugin.getSettings();
     }
 }

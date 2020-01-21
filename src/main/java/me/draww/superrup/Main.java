@@ -25,6 +25,8 @@ public class Main extends JavaPlugin {
     private Config templateConfig;
     private Config languageConfig;
 
+    private Settings settings;
+
     private File jsFolder;
 
     private IGroupManager groupManager;
@@ -37,6 +39,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         config = new Config(this, "config.yml", true);
+        settings = new Settings(this);
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         languageConfig = new Config(this, "language.yml", true);
@@ -131,6 +134,10 @@ public class Main extends JavaPlugin {
 
     public Config getLanguageConfig() {
         return languageConfig;
+    }
+
+    public Settings getSettings() {
+        return settings;
     }
 
     public IGroupManager getGroupManager() {

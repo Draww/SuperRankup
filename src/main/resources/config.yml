@@ -9,6 +9,15 @@ settings:
 disabled_groups:
   - VIP
   - ExampleVIP
+units:
+  day: "day"
+  days: "days"
+  hour: "hour"
+  hours: "hours"
+  minute: "minute"
+  minutes: "minutes"
+  second: "second"
+  seconds: "seconds"
 menu:
   title: "&aRank Menu"
   size: 5 # Minimum 1, Maximum 6
