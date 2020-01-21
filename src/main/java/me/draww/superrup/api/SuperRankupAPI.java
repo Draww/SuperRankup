@@ -4,11 +4,14 @@ import me.draww.superrup.Main;
 
 public class SuperRankupAPI {
 
+    public static SuperRankupAPI INSTANCE;
+
     private Main plugin;
     private ConditionRegisterer conditionRegisterer;
     private ExecutorRegisterer executorRegisterer;
 
     public SuperRankupAPI(Main plugin) {
+        INSTANCE = this;
         this.plugin = plugin;
         this.conditionRegisterer = new ConditionRegisterer();
         this.executorRegisterer = new ExecutorRegisterer();
