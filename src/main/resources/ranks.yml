@@ -30,6 +30,11 @@ example_rank_1:
       item:
         material: APPLE
         amount: 3
+    cond_4:
+      queue: 4
+      type: PLAY_TIME
+      message: "&cYour playing time is insufficient. %reqTime% required"
+      time: 86400 # 1 day
   executors:
     exec_1:
       queue: 1
