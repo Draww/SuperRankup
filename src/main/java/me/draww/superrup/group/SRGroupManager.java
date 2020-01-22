@@ -6,6 +6,8 @@ import be.bendem.sqlstreams.util.Wrap;
 import me.draww.superrup.ChatListener;
 import me.draww.superrup.Config;
 import me.draww.superrup.Main;
+import me.draww.superrup.api.SuperRankupAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 
@@ -41,7 +43,7 @@ public class SRGroupManager implements IGroupManager {
 
     private void loadManager() throws UncheckedSqlException {
         groupsConfig = new Config(Main.INSTANCE, "groups.yml", true);
-        chatListenerPriority = EventPriority.valueOf(Main.INSTANCE.getMainConfig().getConfig().getString("settings.listener_priority").toUpperCase());
+        chatListenerPriority = EventPriority.valueOf(SuperRankupAPI.INSTANCE.getSettings().getCustomSettings().getListenerPriority().toUpperCase());
         chatListener = new ChatListener(chatListenerPriority);
         chatListener.register();
         switch (type) {

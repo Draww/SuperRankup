@@ -1,5 +1,8 @@
 package me.draww.superrup;
 
+import me.draww.superrup.utils.ItemUtil;
+import org.bukkit.inventory.ItemStack;
+
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
@@ -28,7 +31,14 @@ public class Settings {
                 config.getConfig().getString("units.second"),
                 config.getConfig().getString("units.seconds"));
         this.menuSettings = new MenuSettings(config.getConfig().getString("menu.title"),
-                config.getConfig().getInt("menu.size"));
+                config.getConfig().isString("menu.size") && config.getConfig().getString("menu.size").equalsIgnoreCase("DYNAMIC") ? -1 : config.getConfig().getInt("menu.size"),
+                config.getConfig().getString("menu.directionArrowsPosition"),
+                new MenuSettings.EmptyFillSetting(config.getConfig().getBoolean("menu.empty_fill.rank_container.status", false),
+                        ItemUtil.deserializeItemStack(config.getConfigurationSection("menu.empty_fill.rank_container.icon"), null)),
+                new MenuSettings.EmptyFillSetting(config.getConfig().getBoolean("menu.empty_fill.arrow_container.status", false),
+                        ItemUtil.deserializeItemStack(config.getConfigurationSection("menu.empty_fill.arrow_container.icon"), null)),
+                ItemUtil.deserializeItemStack(config.getConfigurationSection("menu.elements.down_arrow"), null),
+                ItemUtil.deserializeItemStack(config.getConfigurationSection("menu.elements.up_arrow"), null));
     }
 
     public static class CustomProviderSettings {
@@ -109,10 +119,20 @@ public class Settings {
 
         private String title;
         private Integer size;
+        private String directionArrowsPosition;
+        private EmptyFillSetting emptyRankContainer;
+        private EmptyFillSetting emptyArrowContainer;
+        private ItemStack elementDownArrow;
+        private ItemStack elementUpArrow;
 
-        public MenuSettings(String title, Integer size) {
+        public MenuSettings(String title, Integer size, String directionArrowsPosition, EmptyFillSetting emptyRankContainer, EmptyFillSetting emptyArrowContainer, ItemStack elementDownArrow, ItemStack elementUpArrow) {
             this.title = title;
             this.size = size;
+            this.directionArrowsPosition = directionArrowsPosition;
+            this.emptyRankContainer = emptyRankContainer;
+            this.emptyArrowContainer = emptyArrowContainer;
+            this.elementDownArrow = elementDownArrow;
+            this.elementUpArrow = elementUpArrow;
         }
 
         public String getTitle() {
@@ -122,6 +142,46 @@ public class Settings {
         public Integer getSize() {
             return size;
         }
+
+        public String getDirectionArrowsPosition() {
+            return directionArrowsPosition;
+        }
+
+        public EmptyFillSetting getEmptyRankContainer() {
+            return emptyRankContainer;
+        }
+
+        public EmptyFillSetting getEmptyArrowContainer() {
+            return emptyArrowContainer;
+        }
+
+        public ItemStack getElementDownArrow() {
+            return elementDownArrow;
+        }
+
+        public ItemStack getElementUpArrow() {
+            return elementUpArrow;
+        }
+
+        public static class EmptyFillSetting {
+
+            private boolean status;
+            private ItemStack icon;
+
+            public EmptyFillSetting(boolean status, ItemStack icon) {
+                this.status = status;
+                this.icon = icon;
+            }
+
+            public boolean isStatus() {
+                return status;
+            }
+
+            public ItemStack getIcon() {
+                return icon;
+            }
+        }
+
     }
 
     public Config getConfig() {

@@ -82,7 +82,7 @@ public class Main extends JavaPlugin {
     }
 
     private boolean setupGroupManager() {
-        String permissionProvider = config.getConfig().getString("permission_provider");
+        String permissionProvider = settings.getPermissionProvider();
         if (permissionProvider.equalsIgnoreCase("LuckPerms") && this.getServer().getPluginManager().isPluginEnabled("LuckPerms")) {
             groupManager = new LuckPermsGroupManager();
             return true;
@@ -90,7 +90,7 @@ public class Main extends JavaPlugin {
             groupManager = new PermissionsExGroupManager();
             return true;
         } else if (permissionProvider.equalsIgnoreCase("Custom")) {
-            groupManager = new SRGroupManager(SRGroupManager.Type.valueOf(config.getConfig().getString("settings.type").toUpperCase()));
+            groupManager = new SRGroupManager(SRGroupManager.Type.valueOf(settings.getCustomSettings().getType().toUpperCase()));
             return true;
         }
         return false;
@@ -103,6 +103,7 @@ public class Main extends JavaPlugin {
 
     public void reload() {
         config.load();
+        settings = new Settings(this);
         ranksConfig.load();
         templateConfig.load();
         languageConfig.load();
