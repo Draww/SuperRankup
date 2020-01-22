@@ -12,6 +12,11 @@ public interface IGroupManager {
 
     String getPlayerPrimaryGroup(Player player);
 
+    default String getPlayerPrimaryGroup(Player player, String def) {
+        String primaryGroup = getPlayerPrimaryGroup(player);
+        return primaryGroup == null ? def : primaryGroup;
+    }
+
     void setPlayerPrimaryGroup(Player player, String group);
 
     void reload();
