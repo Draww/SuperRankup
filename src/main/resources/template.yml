@@ -28,4 +28,4 @@ conditions:
 executors:
   custom_exec:
     type: MESSAGE
-    value: "&atest message 2 &e%player% &aand &6%rank%"
+    value: "&atest message 2 &e%player_name% &aand &6%rank%"
