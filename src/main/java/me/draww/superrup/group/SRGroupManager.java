@@ -100,6 +100,7 @@ public class SRGroupManager implements IGroupManager {
             case YAML:
                 Config config = getData();
                 config.getConfig().set(player.getName(), group);
+                config.save();
             case SQLITE:
                 SqlStreams sqlStreams = getData();
                 Optional<String> optRank = sqlStreams.first("SELECT rank FROM Players WHERE playerName = ?", resultSet -> resultSet.getString("rank"), player.getName());
