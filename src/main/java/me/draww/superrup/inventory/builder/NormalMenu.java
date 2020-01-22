@@ -17,6 +17,10 @@ public class NormalMenu extends HashPane implements IMenu {
 
     private Page page;
 
+    public NormalMenu(final String id) {
+        this.id = id;
+    }
+
     public NormalMenu(final String id, final String title, final Integer size) {
         this.id = id;
         this.title = title;
@@ -66,6 +70,10 @@ public class NormalMenu extends HashPane implements IMenu {
 
     public Page getPage() {
         return page;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
