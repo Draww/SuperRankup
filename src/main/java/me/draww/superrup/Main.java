@@ -43,6 +43,7 @@ public class Main extends JavaPlugin {
         ranksConfig = new Config(this, "ranks.yml", true);
         templateConfig = new Config(this, "template.yml", true);
         languageConfig = new Config(this, "language.yml", true);
+        api = new SuperRankupAPI(this);
         jsFolder = new File(getDataFolder(), "scripts");
         if (!jsFolder.exists()) { //noinspection ResultOfMethodCallIgnored
             jsFolder.mkdirs();
@@ -58,7 +59,6 @@ public class Main extends JavaPlugin {
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        api = new SuperRankupAPI(this);
         rankManager = new RankManager(this);
         rankManager.setup();
         getCommand("rank").setExecutor(new RankCommand());
