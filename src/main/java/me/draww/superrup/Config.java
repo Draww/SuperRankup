@@ -24,6 +24,15 @@ public class Config {
         this.shouldCopy = shouldCopy;
         if (shouldCopy){
             this.firstRun(plugin);
+        } else {
+            if (!configFile.exists()) {
+                try {
+                    //noinspection ResultOfMethodCallIgnored
+                    configFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.configFile);
     }
