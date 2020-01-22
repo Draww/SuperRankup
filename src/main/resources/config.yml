@@ -10,41 +10,41 @@ disabled_groups:
   - VIP
   - ExampleVIP
 units:
-  day: "day"
-  days: "days"
-  hour: "hour"
-  hours: "hours"
-  minute: "minute"
-  minutes: "minutes"
-  second: "second"
-  seconds: "seconds"
+  day: " day "
+  days: " days "
+  hour: " hour "
+  hours: " hours "
+  minute: " minute "
+  minutes: " minutes "
+  second: " second "
+  seconds: " seconds "
 menu:
   title: "&aRank Menu"
-  size: 5 # Minimum 1, Maximum 6
-  panes:
-    rank:
-      x: 0
-      y: 0
-      height: 4
-      length: 9
-    up_down_info:
-      x: 0
-      y: 4
-      height: 1
-      length: 9
-      empty_fill:
-        status: true
-        icon:
-          material: STAINED_GLASS_PANE:0
-          amount: 1
-          name: ' '
-      elements:
-        up:
-          x: 8
-          y: 0
-        down:
-          x: 0
-          y: 0
-        info:
-          x: 4
-          y: 0
+  size: 5 # Minimum 1, Maximum 6 or DYNAMIC
+  directionArrowsPosition: DOWN #TOP(min size 2), SIDE(min size 1), DOWN(min size 2)
+  empty_fill:
+    rank_container:
+      status: true
+      icon:
+        material: STAINED_GLASS_PANE:0
+        amount: 1
+        name: ' '
+    arrow_container:
+      status: true
+      icon:
+        material: STAINED_GLASS_PANE:0
+        amount: 1
+        name: ' '
+  elements:
+    down_arrow:
+      material: ARROW
+      amount: 1
+      name: '&c<--'
+      lores:
+        - '&eCurrent page: %currentPage%'
+    up_arrow:
+      material: ARROW
+      amount: 1
+      name: '&c-->'
+      lores:
+        - '&eCurrent page: %currentPage%'
